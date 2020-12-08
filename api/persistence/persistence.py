@@ -37,11 +37,20 @@ def get_all_composer_names():
 
 def get_all_venues():
     with engine.connect() as con:
-        result = con.execute("SELECT * FROM venue;")
-        venues = []
-        for row in result:
-            venues.append(Venue(**row))
-    return venues
+        res = con.execute(
+            "SELECT JSON_ARRAYAGG(JSON_OBJECT('id', id, 'name', name, 'address', address, 'link', link)) FROM venue;")
+
+        venues_jsonArr = res.first()[0]
+        # print(f'\n***** HERE IS "venues_jsonArr": {venues_jsonArr} *****\n')
+
+    return venues_jsonArr
+
+    # with engine.connect() as con:
+    #     result = con.execute("SELECT * FROM venue;")
+    #     venues = []
+    #     for row in result:
+    #         venues.append(Venue(**row))
+    # return venues
 
 
 # returns a program namedtuple

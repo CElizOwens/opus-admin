@@ -7,8 +7,9 @@ export default function Venues() {
     async function getVenues() {
       const res = await fetch("/api/venues");
       const data = await res.json();
-      console.log(data);
-      setVenues(data.venues);
+      // console.log(data);
+      setVenues(data);
+      // console.log(res);
     }
     getVenues();
   }, []);
@@ -17,7 +18,9 @@ export default function Venues() {
     <div>
       <h1>Venues</h1>
       {venues.map((venue) => (
-        <p key={venue.id}>{venue.name}</p>
+        <p key={venue.id}>
+          <a href={venue.link}>{venue.name}</a> | {venue.address}
+        </p>
       ))}
     </div>
   );
