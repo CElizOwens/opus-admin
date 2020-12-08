@@ -11,10 +11,12 @@ function App() {
         <div className="grid-container">
           <header className="row">
             <div>
-              <h1>Stats For Me</h1>
+              <Link to="/">
+                <h1>Stats For Me</h1>
+              </Link>
             </div>
             <div>
-              <Link to="/">Home</Link> |<Link to="/venues">Venues</Link> |{" "}
+              <Link to="/venues">Venues</Link> |{" "}
               <Link to="/time">Time Zones</Link> |{" "}
               <Link to="/environment">Environment</Link>
             </div>
