@@ -1,39 +1,43 @@
-import React, { useState, useEffect } from "react";
 import { BrowserRouter, Switch, Route, Link } from "react-router-dom";
+import Environment from "./Components/Environment";
+import Home from "./Components/Home";
+import Time from "./Components/Time";
+import Venues from "./Components/Venues";
 
 function App() {
-  const [currentTime, setCurrentTime] = useState(0);
-
-  useEffect(() => {
-    async function getTime() {
-      const res = await fetch("/api/time");
-      const data = await res.json();
-      setCurrentTime(data.time);
-    }
-    getTime();
-  }, []);
   return (
     <>
       <BrowserRouter>
         <div className="grid-container">
-          <header>
-            <h1>Stats I Care About</h1>
+          <header className="row">
             <div>
-              <Link to="/">Home</Link> | <Link to="/page2">Page 2</Link>
+              <h1>Stats For Me</h1>
+            </div>
+            <div>
+              <Link to="/">Home</Link> |<Link to="/venues">Venues</Link> |{" "}
+              <Link to="/time">Time Zones</Link> |{" "}
+              <Link to="/environment">Environment</Link>
             </div>
           </header>
           <main>
-            <Switch>
-              <Route exact path="/">
-                <p>Edit src/App.js and save to reload.</p>
-                <p>The current time is {currentTime}.</p>
-              </Route>
-              <Route path="/page2">
-                <p>This is a page 2!</p>
-              </Route>
-            </Switch>
+            <div className="outer">
+              <Switch>
+                <Route exact path="/">
+                  <Home />
+                </Route>
+                <Route path="/venues">
+                  <Venues />
+                </Route>
+                <Route path="/time">
+                  <Time />
+                </Route>
+                <Route path="/environment">
+                  <Environment />
+                </Route>
+              </Switch>
+            </div>
           </main>
-          <footer>All Rights Reserved.</footer>
+          <footer className="row central">All Rights Reserved.</footer>
         </div>
       </BrowserRouter>
     </>

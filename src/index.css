@@ -35,9 +35,6 @@ header {
   grid-area: header;
   background-color: #0a7eb4;
   color: #ffff55;
-  display: flex;
-  justify-content: space-evenly;
-  align-items: center;
 }
 main {
   grid-area: main;
@@ -48,7 +45,6 @@ footer {
   background-color: #0a7eb4;
   color: #ffff55;
 }
-
 header a:link {
   color: #ffff55;
 }
@@ -57,4 +53,33 @@ header a:visited {
 }
 header a:hover {
   color: #bb55dd;
+}
+header h1 {
+  font-family: Haettenschweiler, "Arial Narrow Bold", sans-serif;
+}
+.row {
+  padding: 0 1rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.central {
+  justify-content: center;
+}
+.outer {
+  display: flex;
+  justify-content: space-around;
+  flex-wrap: wrap;
+}
+/* Card */
+.card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 0 1.2rem 1.2rem;
+  margin: 1rem;
+  border: 0.1rem #a0a0a0 solid;
+  background-color: #ddeeff;
+  border-radius: 0.5rem;
+  min-width: 30%;
 }
