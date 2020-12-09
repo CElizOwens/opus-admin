@@ -83,3 +83,15 @@ header h1 {
   border-radius: 0.5rem;
   min-width: 30%;
 }
+
+.venue {
+  padding: 1rem 1rem;
+  min-width: 90%;
+}
+.venue a:hover {
+  color: #00aa99;
+}
+
+.title {
+  font-size: 3rem;
+}

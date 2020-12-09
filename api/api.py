@@ -1,6 +1,5 @@
 from api import app
 from api.persistence import persistence
-import json
 import time
 
 

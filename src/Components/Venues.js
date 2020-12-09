@@ -16,11 +16,14 @@ export default function Venues() {
 
   return (
     <div>
-      <h1>Venues</h1>
+      <h1 className="row central title">Venues</h1>
       {venues.map((venue) => (
-        <p key={venue.id}>
-          <a href={venue.link}>{venue.name}</a> | {venue.address}
-        </p>
+        <section key={venue.id} className="card venue">
+          <a href={venue.link} target="_blank" rel="noreferrer">
+            {venue.name}
+          </a>{" "}
+          {venue.address}
+        </section>
       ))}
     </div>
   );
