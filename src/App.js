@@ -12,7 +12,7 @@ function App() {
           <header className="row">
             <div>
               <Link to="/">
-                <h1>Stats For Me</h1>
+                <h1>Opus Admin Site</h1>
               </Link>
             </div>
             <div>
