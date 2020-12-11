@@ -1,6 +1,6 @@
 /* Common */
 h1 {
-  font-size: 1.8rem;
+  font-size: 1.9rem;
   padding: 1rem 0;
 }
 h2 {
@@ -35,10 +35,12 @@ header {
   grid-area: header;
   background-color: #0a7eb4;
   color: #ffff55;
+  font-weight: bold;
 }
 main {
   grid-area: main;
   padding: 1rem;
+  background-color: #fafefb;
 }
 footer {
   grid-area: footer;
@@ -110,4 +112,27 @@ header h1 {
 }
 .venue a:hover {
   color: #00aa99;
+}
+/* Forms */
+/* .form-cluster {
+} */
+/* Alert */
+.success {
+  color: #20a020;
+}
+.danger {
+  color: #a02020;
+}
+.alert {
+  padding: 1rem;
+  border: 0.1rem solid transparent;
+  border-radius: 0.5rem;
+}
+.alert-info {
+  color: #2020a0;
+  background-color: #e0e0ff;
+}
+.alert-danger {
+  color: #a02020;
+  background-color: #ffe0e0;
 }
