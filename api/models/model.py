@@ -1,5 +1,7 @@
 from collections import namedtuple
 
+Composer = namedtuple('Composer', ['id', 'name', 'link'])
+
 Piece = namedtuple('Piece', ['name', 'title'])  # , 'opus', 'ens_type'])
 # Ensemble = namedtuple('Ensemble', ['id', 'ens_type', 'size'])
 Event = namedtuple('Event', ['id', 'name', 'day_time'])

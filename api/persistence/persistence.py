@@ -1,4 +1,4 @@
-from api.models.model import Piece, Event, Venue, Performance, Program  # , Ensemble
+from api.models.model import Composer, Piece, Event, Venue, Performance, Program  # , Ensemble
 from api.config import databaseURI, test_databaseURI
 from sqlalchemy import create_engine, text
 
@@ -17,21 +17,17 @@ def get_all_pieces():
         #         pieces.append(Piece(**row))
         # return pieces
 
-        res = con.execute(
+        result = con.execute(
             "SELECT c.name, p.title FROM performance pf INNER JOIN piece p ON pf.piece_id = p.id INNER JOIN composer c ON p.composer_id = c.id;")
-
-        repertoire = []
-        for row in res:
-            repertoire.append(Piece(**row))
+        repertoire = [Piece(**row) for row in result]
     return repertoire
 
 
-def get_all_composer_names():
+# Returns an array of Composer namedtuple
+def get_all_composers():
     with engine.connect() as con:
         result = con.execute("SELECT * FROM composer;")
-        names = []
-        for row in result:
-            names.append(row.name)
+        names = [Composer(**row) for row in result]
     return names
 
 
@@ -39,21 +35,18 @@ def get_all_composer_names():
 def get_all_venues():
     with engine.connect() as con:
         result = con.execute("SELECT * FROM venue;")
-        v_tuples = result.fetchall()  # simple tuples of table row values
-        venues = []     # Array of objects --> no keys, merely a list of objects
-        for row in v_tuples:
-            venues.append(Venue(**row))  # print(f'Not dumped ----> {venues}')
-        return venues
+        venues = [Venue(**row) for row in result]
+    return venues
 
-        # Using regular tuples:
-        # venues.append({"id": row[0], "name": row[1], "address": row[2], "link": row[3]})
-        # print(f' **** venues ====> {json.dumps(venues, indent=2)}')
+    # Using regular tuples:
+    # venues.append({"id": row[0], "name": row[1], "address": row[2], "link": row[3]})
+    # print(f' **** venues ====> {json.dumps(venues, indent=2)}')
 
-        # OBJECT OF OBJECTS --> each object's key = venue's id, object's value = venue properties
-        # object access by key possible
-        # venues = create_dict()
-        # for row in v_tuples:
-        #     venues.add(row.id, ({"name": row[1], "address": row[2], "link": row[3]}))
+    # OBJECT OF OBJECTS --> each object's key = venue's id, object's value = venue properties
+    # object access by key possible
+    # venues = create_dict()
+    # for row in v_tuples:
+    #     venues.add(row.id, ({"name": row[1], "address": row[2], "link": row[3]}))
 
 
 # returns a program namedtuple
@@ -68,9 +61,7 @@ def get_event_performances(event_id):
     with engine.connect() as con:
         result = con.execute(text(
             "SELECT c.name, p.title, pf.notes FROM performance pf  INNER JOIN piece p ON pf.piece_id = p.id INNER JOIN composer c ON p.composer_id = c.id WHERE pf.event_id = :event_id;"), event_id=event_id)
-        performances = []
-        for row in result:
-            performances.append(Performance(**row))
+        performances = [Performance(**row) for row in result]
     return performances
 
 
@@ -79,9 +70,7 @@ def get_all_performances():
     with engine.connect() as con:
         result = con.execute(
             "SELECT c.name, p.title, pf.notes FROM performance pf INNER JOIN piece p ON pf.piece_id = p.id INNER JOIN composer c ON p.composer_id = c.id;")
-        performances = []
-        for row in result:
-            performances.append(Performance(**row))
+        performances = [Performance(**row) for row in result]
     return performances
 
 
@@ -129,9 +118,7 @@ def get_all_events():
     with engine.connect() as con:
         result = con.execute(
             "SELECT e.id, v.name, e.day_time FROM event e INNER JOIN venue v ON e.venue_id = v.id;")
-        events = []
-        for row in result:
-            events.append(Event(**row))
+        events = [Event(**row) for row in result]
     return events
 
 

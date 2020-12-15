@@ -77,3 +77,17 @@ class create_dict(dict):
     # Function to add key:value
     def add(self, key, value):
         self[key] = value
+
+
+
+
+persistence.py:
+ - Query result is an sqlalchemy 'ResultProxy' object
+   and can be looped over, row by row, directly
+ - Use list comprehensions instead of for loops
+
+model.py:
+ - Create Composer namedtuple
+
+api.py:
+ - Create get_composers

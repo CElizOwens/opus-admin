@@ -16,24 +16,15 @@ def get_current_time():
 
 @app.route('/api/venues')
 def get_venues():
-    venues_nt = persistence.get_all_venues()
-    venues_dicts = []
-    for nt in venues_nt:
-        venues_dicts.append(nt._asdict())
+    venues_nts = persistence.get_all_venues()
+    venues_dicts = [nt._asdict() for nt in venues_nts]
     venues_json = json.dumps(venues_dicts)
     return venues_json
 
-# return [
-#            {
-#                'name': 'Oakland',
-#                'id': '0'
-#            },
-#            {
-#                'name': 'Berkeley',
-#                'id': '1'
-#            },
-#            {
-#                'name': 'Pleasant Hill',
-#                'id': '2'
-#            }
-#        ]
+
+@app.route('/api/composers')
+def get_composers():
+    composers_nts = persistence.get_all_composers()
+    composers_dicts = [nt._asdict() for nt in composers_nts]
+    composers_json = json.dumps(composers_dicts)
+    return composers_json
