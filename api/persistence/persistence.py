@@ -49,7 +49,7 @@ def get_all_venues():
     #     venues.add(row.id, ({"name": row[1], "address": row[2], "link": row[3]}))
 
 
-# returns a program namedtuple
+# returns a program namedtuple for specified event and its performances
 def get_program(event):
     performances = get_event_performances(event.id)
     program = Program(event, performances)
@@ -113,7 +113,7 @@ def get_event(event_id):
     return event
 
 
-# returns a list of of all event namedtuples
+# returns a list of all event namedtuples
 def get_all_events():
     with engine.connect() as con:
         result = con.execute(

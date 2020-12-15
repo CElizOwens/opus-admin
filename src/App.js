@@ -1,6 +1,7 @@
 import { BrowserRouter, Switch, Route, Link } from "react-router-dom";
 import Environment from "./Components/Environment";
 import Home from "./Components/Home";
+import Programs from "./Components/Programs";
 import Time from "./Components/Time";
 import Venues from "./Components/Venues";
 
@@ -16,6 +17,7 @@ function App() {
               </Link>
             </div>
             <div>
+              <Link to="/programs">Programs</Link> |{" "}
               <Link to="/venues">Venues</Link> |{" "}
               <Link to="/time">Time Zones</Link> |{" "}
               <Link to="/environment">Environment</Link>
@@ -26,6 +28,9 @@ function App() {
               <Switch>
                 <Route exact path="/">
                   <Home />
+                </Route>
+                <Route path="/programs">
+                  <Programs />
                 </Route>
                 <Route path="/venues">
                   <Venues />

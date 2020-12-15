@@ -22,6 +22,29 @@ def get_venues():
     return venues_json
 
 
+@app.route('/api/programs')
+def get_programs():
+    # get list of Event namedtuples
+    events = persistence.get_all_events()
+    programs = []
+    for event in events:
+        # get list of Performance namedtuples
+        performances_nts = persistence.get_event_performances(event.id)
+        # convert to list of OrderedDicts
+        performances_dicts = [nt._asdict() for nt in performances_nts]
+        # print(
+        #     f"**** event date -------> {event.day_time.strftime('%X %x')}")
+        date_string = event.day_time.strftime('%X %x')
+        event_dicts = event._asdict()
+        # print(f"*** event as dict -------> {event_dicts}")
+        # print(f"*** event dict day_time -------> {event_dicts['day_time']}")
+        event_dicts['day_time'] = date_string
+        programs.append({"event": event_dicts,
+                         "performances": performances_dicts})
+    programs_json = json.dumps(programs)
+    return programs_json
+
+
 @app.route('/api/composers')
 def get_composers():
     composers_nts = persistence.get_all_composers()

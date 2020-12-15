@@ -25,7 +25,7 @@ SELECT * FROM table
 venue:
 SELECT JSON_ARRAYAGG(JSON_OBJECT('id', id, 'name', name, 'address', address, 'link', link)) FROM venue;
 
-What I was doing before (coverting mysql query to json IN MYSQL):
+What I was doing before (converting mysql query to json IN MYSQL):
 
 def get_all_venues():
     with engine.connect() as con:
@@ -79,8 +79,6 @@ class create_dict(dict):
         self[key] = value
 
 
-
-
 persistence.py:
  - Query result is an sqlalchemy 'ResultProxy' object
    and can be looped over, row by row, directly
@@ -91,3 +89,45 @@ model.py:
 
 api.py:
  - Create get_composers
+
+
+==========================
+
+get all events as Event namedtuples
+
+for all Events:
+- take event_id and day_time and venue...
+- with event_id get event performances
+
+
+SELECT 
+
+
+programs = [
+    # one program object
+    # has properties event_id, day_time, venue and performances
+    {
+        "event": {
+            "id": 3,
+            "day_time: 01/24/20 18:00:00,
+            "name": "Baker and Commons"
+        }
+        "performances": [
+            {
+                "name": "Mozart, Wolfgang Amadeus",
+                "title": "Eine Kleine Nachtmusik",
+                "notes": "Movements 1 and 2"
+            },
+            {
+                "name": "Brahms, Johannes",
+                "title": "String Quintet",
+                "notes": "Movements 1 and 3"
+            },
+            {
+                "name": "Beethoven, Ludwig van",
+                "title": "Grosse Fugue",
+                "notes": ""
+            }
+        ]
+    }
+]
