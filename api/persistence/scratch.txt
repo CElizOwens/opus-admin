@@ -1,0 +1,79 @@
+Useful Functions
+----------------
+JSON_ARRAY(): Create JSON array
+JSON_OBJECT(): Create JSON object
+JSON_PRETTY(): Print JSON values in easy-to-read format
+
+    Place query result into a variable: (this results in an array of objects)
+        SELECT JSON_ARRAYAGG(JSON_OBJECT('name', c.name, 'title', p.title))
+        FROM performance pf
+        INNER JOIN piece p ON pf.piece_id = p.id
+        INNER JOIN composer c ON p.composer_id = c.id
+        INTO @p;    <<<--- (variable)
+
+    The below command displays the prettified result in a table called 'Result'
+    (mysql can only ever answer queries with table, which requires a SELECT statement):
+        SELECT JSON_PRETTY(@p) Result;
+
+JSON_ARRAYAGG(): Return result set as a single JSON array
+JSON_OBJECTAGG(): Return result set as a single JSON object
+
+
+
+SELECT * FROM table
+--------------------
+venue:
+SELECT JSON_ARRAYAGG(JSON_OBJECT('id', id, 'name', name, 'address', address, 'link', link)) FROM venue;
+
+What I was doing before (coverting mysql query to json IN MYSQL):
+
+def get_all_venues():
+    with engine.connect() as con:
+        res = con.execute(
+            "SELECT JSON_ARRAYAGG(JSON_OBJECT('id', id, 'name', name, 'address', address, 'link', link)) FROM venue;")
+        print(res)
+        venues_jsonArr = res.first()[0]
+        print(f'\n***** HERE IS "venues_jsonArr": {venues_jsonArr} *****\n')
+    return venues_jsonArr
+
+
+
+composer:
+SELECT JSON_ARRAYAGG(JSON_OBJECT('id', id, 'name', name, 'link', link)) FROM composer;
+
+get_all_pieces:
+(Raw query)
+SELECT c.name, p.title FROM performance pf INNER JOIN piece p ON pf.piece_id = p.id INNER JOIN composer c ON p.composer_id = c.id;
+
+(Updated query)
+SELECT JSON_ARRAYAGG(JSON_OBJECT('name', c.name, 'title', p.title)) FROM performance pf INNER JOIN piece p ON pf.piece_id = p.id INNER JOIN composer c ON p.composer_id = c.id;
+
+
+event:
+
+
+performance:
+
+
+
+
+
+Difference in usage between an array of objects and an object of objects.
+Excellent answer by user "megyewodi":
+https://stackoverflow.com/questions/12288820/what-are-the-differences-between-using-json-arrays-vs-json-objects
+
+
+A class extending from 'dict', found in this tutorial:
+https://www.etutorialspoint.com/index.php/295-how-to-convert-mysql-query-result-to-json-in-python
+    - the add function operates in the same way as appending a value to a list
+    - 'dict' alone does not have this functionality
+
+class create_dict(dict):
+
+    # __init__ function
+    def __init__(self):
+        self = dict()
+
+    # Function to add key:value
+    def add(self, key, value):
+        self[key] = value

@@ -1,9 +1,12 @@
 import React from "react";
+// import spinner from "../Images/icons8-refresh.gif";
 
 export default function LoadingBox() {
   return (
     <div>
-      <i className="fas fa-spinner fa-spin"></i> Loading...
+      <img src="fas fa-spinner fa-spin" alt="spinner..." />
+      {/* <img src={require("../Images/icons8-refresh.gif")} alt="spinner..." />{" "} */}
+      Loading...
     </div>
   );
 }

@@ -1,6 +1,7 @@
 from api import app
 from api.persistence import persistence
 import time
+import json
 
 
 @app.errorhandler(404)
@@ -15,22 +16,24 @@ def get_current_time():
 
 @app.route('/api/venues')
 def get_venues():
-    venues_json = persistence.get_all_venues()
+    venues_nt = persistence.get_all_venues()
+    venues_dicts = []
+    for nt in venues_nt:
+        venues_dicts.append(nt._asdict())
+    venues_json = json.dumps(venues_dicts)
     return venues_json
 
-    # return {
-    #     'venues': [
-    #         {
-    #             'name': 'Oakland',
-    #             'id': '0'
-    #         },
-    #         {
-    #             'name': 'Berkeley',
-    #             'id': '1'
-    #         },
-    #         {
-    #             'name': 'Pleasant Hill',
-    #             'id': '2'
-    #         }
-    #     ]
-    # }
+# return [
+#            {
+#                'name': 'Oakland',
+#                'id': '0'
+#            },
+#            {
+#                'name': 'Berkeley',
+#                'id': '1'
+#            },
+#            {
+#                'name': 'Pleasant Hill',
+#                'id': '2'
+#            }
+#        ]

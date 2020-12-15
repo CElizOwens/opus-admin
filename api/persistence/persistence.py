@@ -35,22 +35,25 @@ def get_all_composer_names():
     return names
 
 
+# Returns an array of Venue namedtuples
 def get_all_venues():
     with engine.connect() as con:
-        res = con.execute(
-            "SELECT JSON_ARRAYAGG(JSON_OBJECT('id', id, 'name', name, 'address', address, 'link', link)) FROM venue;")
+        result = con.execute("SELECT * FROM venue;")
+        v_tuples = result.fetchall()  # simple tuples of table row values
+        venues = []     # Array of objects --> no keys, merely a list of objects
+        for row in v_tuples:
+            venues.append(Venue(**row))  # print(f'Not dumped ----> {venues}')
+        return venues
 
-        venues_jsonArr = res.first()[0]
-        # print(f'\n***** HERE IS "venues_jsonArr": {venues_jsonArr} *****\n')
+        # Using regular tuples:
+        # venues.append({"id": row[0], "name": row[1], "address": row[2], "link": row[3]})
+        # print(f' **** venues ====> {json.dumps(venues, indent=2)}')
 
-    return venues_jsonArr
-
-    # with engine.connect() as con:
-    #     result = con.execute("SELECT * FROM venue;")
-    #     venues = []
-    #     for row in result:
-    #         venues.append(Venue(**row))
-    # return venues
+        # OBJECT OF OBJECTS --> each object's key = venue's id, object's value = venue properties
+        # object access by key possible
+        # venues = create_dict()
+        # for row in v_tuples:
+        #     venues.add(row.id, ({"name": row[1], "address": row[2], "link": row[3]}))
 
 
 # returns a program namedtuple
