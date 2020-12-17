@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import LoadingBox from "./LoadingBox";
 import MessageBox from "./MessageBox";
+import Performances from "./Performances";
 
 export default function Programs() {
   const [programs, setPrograms] = useState([]);
@@ -44,14 +45,7 @@ export default function Programs() {
                 <h2>
                   {program.event.name} {program.event.day_time}
                 </h2>
-                <section>
-                  {program.performances.map((performance, index) => (
-                    <p key={index} className="card card-div">
-                      {performance.name}: {performance.title}.{" "}
-                      <em>{performance.notes}</em>
-                    </p>
-                  ))}
-                </section>
+                <Performances performances={program.performances} />
               </div>
             ))}
           </section>

@@ -87,7 +87,7 @@ header h1 {
   padding: 0 1.2rem 1.2rem;
   margin: 1rem;
   border: 0.1rem #a0a0a0 solid;
-  background-color: #ddeeff;
+  background-color: #b9dcff;
   border-radius: 0.5rem;
   min-width: 30%;
 }
@@ -112,17 +112,22 @@ header h1 {
 .venue-list {
   margin-top: 2rem;
 }
-/* Repertoire */
-.rep-div {
+/* Performances */
+.perfs-div {
   font-weight: lighter;
 }
-.rep-div h3 {
+.perfs-div h3 {
   margin-bottom: 1rem;
 }
-.rep-div span {
+.perfs-div span {
   font-weight: bolder;
 }
-.rep-div p {
+.perfs-div article {
+  background-color: #fafefb;
+  padding: 0.5rem;
+  border-radius: 0.1rem;
+}
+.perfs-div p {
   margin-bottom: 0.4rem;
 }
 /* Forms */

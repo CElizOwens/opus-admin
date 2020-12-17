@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import LoadingBox from "./LoadingBox";
 import MessageBox from "./MessageBox";
+import Performances from "./Performances";
 
 export default function Repertoire() {
   const [rep, setRep] = useState([]);
@@ -38,21 +39,7 @@ export default function Repertoire() {
         <MessageBox variant="danger">{error}</MessageBox>
       ) : (
         <>
-          <section>
-            {rep.map((performance, index) => (
-              <div key={index} className="card card-div rep-div">
-                <h3>{performance.name}</h3>
-                <p>
-                  <span>IMSLP Title: </span>
-                  {performance.title}
-                </p>
-                <p>
-                  <span>Performance Notes: </span>
-                  {performance.notes}
-                </p>
-              </div>
-            ))}
-          </section>
+          <Performances performances={rep} />
         </>
       )}
     </div>
