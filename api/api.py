@@ -16,10 +16,12 @@ def get_current_time():
 
 @app.route('/api/venues')
 def get_venues():
-    venues_nts = persistence.get_all_venues()
-    venues_dicts = [nt._asdict() for nt in venues_nts]
-    venues_json = json.dumps(venues_dicts)
-    return venues_json
+    return to_json(persistence.get_all_venues())
+
+
+@app.route('/api/repertoire')
+def get_repertoire():
+    return to_json(persistence.get_all_performances())
 
 
 @app.route('/api/programs')
@@ -51,3 +53,8 @@ def get_composers():
     composers_dicts = [nt._asdict() for nt in composers_nts]
     composers_json = json.dumps(composers_dicts)
     return composers_json
+
+
+def to_json(nts):
+    dicts = [nt._asdict() for nt in nts]
+    return json.dumps(dicts)

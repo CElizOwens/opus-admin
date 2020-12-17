@@ -32,19 +32,19 @@ export default function Venues() {
 
   return (
     <div>
+      <h1 className="row central title">Venues</h1>
       {loading ? (
         <LoadingBox />
       ) : error ? (
         <MessageBox variant="danger">{error}</MessageBox>
       ) : (
         <>
-          <h1 className="row central title">Venues</h1>
           <section className="form-cluster">
             <Form />
           </section>
           <section className="venue-list">
             {venues.map((venue) => (
-              <div key={venue.id} className="card venue">
+              <div key={venue.id} className="card card-div">
                 <a href={venue.link} target="_blank" rel="noreferrer">
                   {venue.name}
                 </a>{" "}

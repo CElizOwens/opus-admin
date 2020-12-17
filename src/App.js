@@ -1,7 +1,7 @@
 import { BrowserRouter, Switch, Route, Link } from "react-router-dom";
-import Environment from "./Components/Environment";
 import Home from "./Components/Home";
 import Programs from "./Components/Programs";
+import Repertoire from "./Components/Repertoire";
 import Time from "./Components/Time";
 import Venues from "./Components/Venues";
 
@@ -19,8 +19,8 @@ function App() {
             <div>
               <Link to="/programs">Programs</Link> |{" "}
               <Link to="/venues">Venues</Link> |{" "}
-              <Link to="/time">Time Zones</Link> |{" "}
-              <Link to="/environment">Environment</Link>
+              <Link to="/repertoire">Repertoire</Link> |{" "}
+              <Link to="/time">Time Zones</Link>
             </div>
           </header>
           <main>
@@ -35,11 +35,11 @@ function App() {
                 <Route path="/venues">
                   <Venues />
                 </Route>
+                <Route path="/repertoire">
+                  <Repertoire />
+                </Route>
                 <Route path="/time">
                   <Time />
-                </Route>
-                <Route path="/environment">
-                  <Environment />
                 </Route>
               </Switch>
             </div>

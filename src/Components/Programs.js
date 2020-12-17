@@ -1,4 +1,6 @@
 import React, { useState, useEffect } from "react";
+import LoadingBox from "./LoadingBox";
+import MessageBox from "./MessageBox";
 
 export default function Programs() {
   const [programs, setPrograms] = useState([]);
@@ -29,23 +31,32 @@ export default function Programs() {
 
   return (
     <div>
-      <h1>Programs</h1>
-      <section>
-        {programs.map((program) => (
-          <div key={program.event.id}>
-            <h2>
-              {program.event.name} {program.event.day_time}
-            </h2>
-            <section>
-              {program.performances.map((performance, index) => (
-                <p key={index} className="card venue">
-                  {performance.name}: {performance.title}. {performance.notes}
-                </p>
-              ))}
-            </section>
-          </div>
-        ))}
-      </section>
+      <h1 className="row central title">Programs</h1>
+      {loading ? (
+        <LoadingBox />
+      ) : error ? (
+        <MessageBox variant="danger">{error}</MessageBox>
+      ) : (
+        <>
+          <section>
+            {programs.map((program) => (
+              <div key={program.event.id}>
+                <h2>
+                  {program.event.name} {program.event.day_time}
+                </h2>
+                <section>
+                  {program.performances.map((performance, index) => (
+                    <p key={index} className="card card-div">
+                      {performance.name}: {performance.title}.{" "}
+                      <em>{performance.notes}</em>
+                    </p>
+                  ))}
+                </section>
+              </div>
+            ))}
+          </section>
+        </>
+      )}
     </div>
   );
 }
