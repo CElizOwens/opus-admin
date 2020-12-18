@@ -2,11 +2,17 @@ from api import app
 from api.persistence import persistence
 import time
 import json
+# import urllib.parse as up
 
 
 @app.errorhandler(404)
 def not_found(e):
     return app.send_static_file('index.html')
+
+
+# @app.route('api/url')
+# def encode(url_str):
+#     return up.quote_plus(url_str)
 
 
 @app.route('/api/time')

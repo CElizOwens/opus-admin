@@ -38,18 +38,18 @@ export default function Programs() {
       ) : error ? (
         <MessageBox variant="danger">{error}</MessageBox>
       ) : (
-        <>
-          <section>
-            {programs.map((program) => (
-              <div key={program.event.id}>
-                <h2>
-                  {program.event.name} {program.event.day_time}
-                </h2>
-                <Performances performances={program.performances} />
-              </div>
-            ))}
-          </section>
-        </>
+        // <>
+        <section>
+          {programs.map((program) => (
+            <div key={program.event.id}>
+              <h1 className="heading central">
+                {program.event.name} {program.event.day_time}
+              </h1>
+              <Performances performances={program.performances} />
+            </div>
+          ))}
+        </section>
+        // </>
       )}
     </div>
   );

@@ -39,16 +39,28 @@ export default function Venues() {
         <MessageBox variant="danger">{error}</MessageBox>
       ) : (
         <>
-          <section className="form-cluster">
+          <section className="row central">
             <Form />
           </section>
           <section className="venue-list">
             {venues.map((venue) => (
-              <div key={venue.id} className="card card-div">
-                <a href={venue.link} target="_blank" rel="noreferrer">
+              <div key={venue.id} className="card card-div venue-div">
+                <article>
                   {venue.name}
-                </a>{" "}
-                {venue.address}
+                  <p>
+                    <a href={venue.link} target="_blank" rel="noreferrer">
+                      website
+                    </a>{" "}
+                    |{" "}
+                    <a
+                      href={`https://www.google.com/maps/search/?api=1&query=${venue.address}`}
+                      target="_blank"
+                      rel="noreferrer"
+                    >
+                      map
+                    </a>
+                  </p>
+                </article>
               </div>
             ))}
           </section>

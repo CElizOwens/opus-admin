@@ -18,8 +18,8 @@ function App() {
             </div>
             <div>
               <Link to="/programs">Programs</Link> |{" "}
-              <Link to="/venues">Venues</Link> |{" "}
               <Link to="/repertoire">Repertoire</Link> |{" "}
+              <Link to="/venues">Venues</Link> |{" "}
               <Link to="/time">Time Zones</Link>
             </div>
           </header>
@@ -32,11 +32,11 @@ function App() {
                 <Route path="/programs">
                   <Programs />
                 </Route>
-                <Route path="/venues">
-                  <Venues />
-                </Route>
                 <Route path="/repertoire">
                   <Repertoire />
+                </Route>
+                <Route path="/venues">
+                  <Venues />
                 </Route>
                 <Route path="/time">
                   <Time />

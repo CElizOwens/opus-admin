@@ -7,7 +7,7 @@ export default function Performances({ performances }) {
     <section>
       {perfs.map((performance, index) => (
         <div key={index} className="card card-div perfs-div">
-          <h3>{performance.name}</h3>
+          <h2>{performance.name}</h2>
           <article>
             <p>
               <span>IMSLP Title: </span>
