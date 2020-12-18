@@ -1,7 +1,7 @@
 import React from "react";
 
 export default function Performances({ performances }) {
-  console.log(performances);
+  // console.log(performances);
   const perfs = performances;
   return (
     <section>

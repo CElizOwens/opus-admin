@@ -14,7 +14,7 @@ export default function Programs() {
       const res = await fetch("/api/programs");
       const data = await res.json();
       setLoading(false);
-      console.log(data);
+      // console.log(data);
       setPrograms(data);
       // console.log(res);
     } catch (err) {
