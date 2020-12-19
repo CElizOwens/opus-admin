@@ -1,11 +1,13 @@
 import React, { useState } from "react";
+import { useForm } from "react-hook-form";
 
 export default function Form() {
-  const inputTextHandler = (e) => {
-    console.log(e.target.value);
-  };
-
+  const { register, handleSubmit, errors } = useForm();
   const [needForm, setNeedForm] = useState(false);
+
+  const onSubmit = (data) => {
+    console.log(data);
+  };
   const handleToggle = () => {
     setNeedForm(!needForm);
   };
@@ -13,13 +15,6 @@ export default function Form() {
   return (
     <div className="card">
       {needForm ? (
-        <div className="row">
-          <button className="toggler" onClick={handleToggle}>
-            <i className="fas fa-plus"></i>
-          </button>
-          <p>Add new venue...</p>
-        </div>
-      ) : (
         <>
           <div className="closing-toggle">
             <button className="toggler" onClick={handleToggle}>
@@ -28,25 +23,35 @@ export default function Form() {
             Close
           </div>
           <div>
-            <form>
-              <div className="form-control">
+            <form onSubmit={handleSubmit(onSubmit)}>
+              <div className="form-div hori-control">
                 <label>Name</label>
-                <input type="text" name="name" onChange={inputTextHandler} />
+                <input type="text" name="name" ref={register} />
               </div>
-              <div className="form-control">
+              <div className="form-div hori-control">
                 <label>Address</label>
-                <input type="text" name="address" onChange={inputTextHandler} />
+                <input type="text" name="address" ref={register} />
               </div>
-              <div className="form-control">
+              <div className="form-div hori-control">
                 <label>Website</label>
-                <input type="text" name="url" onChange={inputTextHandler} />
+                <input type="text" name="link" ref={register} />
               </div>
-              <div className="form-control">
-                <button type="submit">Submit</button>
+              <div>
+                {/* <div className="form-div hori-control"> */}
+                <button className="submit-btn" type="submit">
+                  Submit
+                </button>
               </div>
             </form>
           </div>
         </>
+      ) : (
+        <div className="row">
+          <button className="toggler" onClick={handleToggle}>
+            <i className="fas fa-plus"></i>
+          </button>
+          <p>Add new venue...</p>
+        </div>
       )}
     </div>
   );

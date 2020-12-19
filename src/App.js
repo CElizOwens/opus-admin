@@ -1,5 +1,6 @@
 import { BrowserRouter, Switch, Route, Link } from "react-router-dom";
 import Home from "./Components/Home";
+import Login from "./Components/Login";
 import Programs from "./Components/Programs";
 import Repertoire from "./Components/Repertoire";
 import Time from "./Components/Time";
@@ -19,8 +20,8 @@ function App() {
             <div>
               <Link to="/programs">Programs</Link> |{" "}
               <Link to="/repertoire">Repertoire</Link> |{" "}
-              <Link to="/venues">Venues</Link> |{" "}
-              <Link to="/time">Time Zones</Link>
+              <Link to="/venues">Venues</Link> | <Link to="/login">Login</Link>{" "}
+              | <Link to="/time">Time Zones</Link>
             </div>
           </header>
           <main>
@@ -28,6 +29,9 @@ function App() {
               <Switch>
                 <Route exact path="/">
                   <Home />
+                </Route>
+                <Route path="/login">
+                  <Login />
                 </Route>
                 <Route path="/programs">
                   <Programs />

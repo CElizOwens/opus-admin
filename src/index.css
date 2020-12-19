@@ -52,7 +52,7 @@ main {
 footer {
   grid-area: footer;
   background-color: #0a7eb4;
-  color: #ffff55;
+  color: #eeeedd;
 }
 header a:link {
   color: #ffff55;
@@ -96,7 +96,7 @@ header h1 {
   /* align-items: center; */
   width: 100%;
   padding: 1rem;
-  margin: 1rem;
+  /* margin: 1rem; */
   border: 0.1rem #a0a0a0 solid;
   background-color: #b9dcff;
   border-radius: 0.5rem;
@@ -159,21 +159,33 @@ header h1 {
   padding: 0.7rem 0.7rem;
   border-radius: 0 0.3rem 0.3rem 0;
 } */
-.form-control {
+.form-div {
   font-weight: 600;
   color: #222222;
-  /* margin: 0.5rem; */
   display: flex;
+
+  margin-bottom: 0.7rem;
+}
+.form-div input {
+  padding: 0.3rem 0.2rem;
+}
+.hori-control {
+  /* margin: 0.5rem; */
   justify-content: space-between;
   align-items: center;
+  /* margin-bottom: 0.7rem; */
 }
-form input {
+.hori-control input {
   margin-left: 1rem;
-  margin-bottom: 0.7rem;
-  padding: 0.3rem 0.2rem;
-  /* border-right: none; */
 }
-form button {
+.vert-control {
+  flex-direction: column;
+}
+
+/* for form with 'attached' left-side button */
+/* border-right: none; */
+
+.submit-btn {
   margin-top: 1rem;
 }
 /* .form-cluster {
@@ -187,6 +199,10 @@ form button {
 }
 
 /* Alert */
+.login p {
+  font-size: small;
+  font-weight: 500;
+}
 .success {
   color: #20a020;
 }
