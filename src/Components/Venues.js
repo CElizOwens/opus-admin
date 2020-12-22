@@ -8,6 +8,17 @@ export default function Venues() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(false);
 
+  const handleFormSubmit = (data) => {
+    fetch("api/venues", {
+      method: "POST",
+      body: JSON.stringify({ data }),
+      headers: {
+        "Content-type": "application/json",
+      },
+    });
+    getVenues();
+  };
+
   async function getVenues() {
     try {
       setLoading(true);
@@ -40,7 +51,7 @@ export default function Venues() {
       ) : (
         <>
           <section className="row central">
-            <VenueForm />
+            <VenueForm venueFormSubmit={handleFormSubmit} />
           </section>
           <section className="venue-list">
             {venues.map((venue) => (

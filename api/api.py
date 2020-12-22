@@ -1,5 +1,6 @@
 from api import app
 from api.persistence import persistence
+from flask import redirect, request
 import time
 import json
 # import urllib.parse as up
@@ -20,8 +21,17 @@ def get_current_time():
     return {'time': time.strftime('%X %x')}
 
 
-@app.route('/api/venues')
+@app.route('/api/venues', methods=['GET', 'POST'])
 def get_venues():
+    if request.method == 'POST':
+        req = json.loads(request.data)['data']
+        # print(f'req["name"] = {req["name"]}')
+        # print(f'******* req = {req[data]} *******\n Type = {type(req)}')
+        name = req['name']
+        address = req['address']
+        link = req['link']
+        persistence.insert_venue(name, address, link)
+        # redirect('/api/venues')
     return to_json(persistence.get_all_venues())
 
 
