@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import Form from "./Form";
+import VenueForm from "./VenueForm";
 import LoadingBox from "./LoadingBox";
 import MessageBox from "./MessageBox";
 
@@ -40,7 +40,7 @@ export default function Venues() {
       ) : (
         <>
           <section className="row central">
-            <Form />
+            <VenueForm />
           </section>
           <section className="venue-list">
             {venues.map((venue) => (

@@ -2,11 +2,12 @@ import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 
 export default function Form() {
-  const { register, handleSubmit, errors } = useForm();
+  const { register, handleSubmit, errors, reset } = useForm();
   const [needForm, setNeedForm] = useState(false);
 
   const onSubmit = (data) => {
     console.log(data);
+    reset();
   };
   const handleToggle = () => {
     setNeedForm(!needForm);

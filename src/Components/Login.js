@@ -2,9 +2,10 @@ import React from "react";
 import { useForm } from "react-hook-form";
 
 export default function Login() {
-  const { register, handleSubmit, errors } = useForm();
-  const onSubmit = (data) => {
+  const { register, handleSubmit, errors, reset } = useForm();
+  const onSubmit = (data, e) => {
     console.log(data);
+    e.target.reset();
   };
   return (
     <div>
@@ -18,33 +19,31 @@ export default function Login() {
               type="text"
               name="email"
               ref={register({
-                required: true,
-                pattern: /^[^@ ]+@[^@ ]+\.[^@ .]{2,}$/,
+                required: "*Email is required.",
+                pattern: {
+                  value: /^[^@ ]+@[^@ ]+\.[^@ .]{2,}$/,
+                  message: "*Email is not valid.",
+                },
               })}
             />
-            {errors.email && errors.email.type === "required" && (
-              <p className="danger">*Email is required.</p>
-            )}
-            {errors.email && errors.email.type === "pattern" && (
-              <p className="danger">*Email is not valid.</p>
-            )}
+            {errors.email && <p className="danger">{errors.email.message}</p>}
           </div>
           <div className="form-div vert-control">
-            <div>
-              <label htmlFor="password">Password</label>
-            </div>
+            <label htmlFor="password">Password</label>
+
             <input
               type="password"
               name="password"
-              ref={register({ required: true, minLength: 6 })}
+              ref={register({
+                required: "*Password is required.",
+                minLength: {
+                  value: 6,
+                  message: "*Password must be at least 6 characters.",
+                },
+              })}
             />
-            {errors.password && errors.password.type === "required" && (
-              <p className="danger">*Password is required.</p>
-            )}
-            {errors.password && errors.password.type === "minLength" && (
-              <p className="danger">
-                *Password should be at-least 6 characters.
-              </p>
+            {errors.password && (
+              <p className="danger">{errors.password.message}</p>
             )}
           </div>
           <div>
