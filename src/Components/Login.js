@@ -5,7 +5,8 @@ export default function Login() {
   const { register, handleSubmit, errors, reset } = useForm();
   const onSubmit = (data, e) => {
     console.log(data);
-    e.target.reset();
+    // e.target.reset();
+    reset();
   };
   return (
     <div>

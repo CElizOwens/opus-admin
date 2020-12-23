@@ -1,13 +1,14 @@
 import React, { useState } from "react";
 import { useForm } from "react-hook-form";
+// import { Opener, Closer } from "./Toggles";
 
-export default function Form({ venueFormSubmit }) {
+export default function ProgramForm({ programFormSubmit }) {
   const { register, handleSubmit, reset } = useForm();
   const [needForm, setNeedForm] = useState(false);
 
   const onSubmit = (data) => {
     console.log(data);
-    venueFormSubmit(data);
+    programFormSubmit(data);
     reset();
   };
   const handleToggle = () => {
@@ -18,6 +19,7 @@ export default function Form({ venueFormSubmit }) {
     <div className="card">
       {needForm ? (
         <>
+          {/* <Closer /> */}
           <div className="closing-toggle">
             <button className="toggler" onClick={handleToggle}>
               <i className="fas fa-minus"></i>
@@ -27,16 +29,16 @@ export default function Form({ venueFormSubmit }) {
           <div>
             <form onSubmit={handleSubmit(onSubmit)}>
               <div className="form-div hori-control">
-                <label>Name</label>
-                <input type="text" name="name" ref={register} />
+                <label>Date and Time</label>
+                <input type="text" name="day_time" ref={register} />
               </div>
               <div className="form-div hori-control">
-                <label>Address</label>
-                <input type="text" name="address" ref={register} />
+                <label>Venue</label>
+                <input type="text" name="venue" ref={register} />
               </div>
               <div className="form-div hori-control">
-                <label>Website</label>
-                <input type="text" name="link" ref={register} />
+                <label>Performance</label>
+                <input type="text" name="performance" ref={register} />
               </div>
               <div>
                 {/* <div className="form-div hori-control"> */}
@@ -48,11 +50,12 @@ export default function Form({ venueFormSubmit }) {
           </div>
         </>
       ) : (
+        // <Opener text="Add new program..." />
         <div className="row">
           <button className="toggler" onClick={handleToggle}>
             <i className="fas fa-plus"></i>
           </button>
-          <p>Add new venue...</p>
+          <p>Add new program...</p>
         </div>
       )}
     </div>
