@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { useForm } from "react-hook-form";
+import { Closer, Opener } from "./Toggles";
 
 export default function Form({ venueFormSubmit }) {
   const { register, handleSubmit, reset } = useForm();
@@ -18,12 +19,7 @@ export default function Form({ venueFormSubmit }) {
     <div className="card">
       {needForm ? (
         <>
-          <div className="closing-toggle">
-            <button className="toggler" onClick={handleToggle}>
-              <i className="fas fa-minus"></i>
-            </button>{" "}
-            Close
-          </div>
+          <Closer toggle={handleToggle} />
           <div>
             <form onSubmit={handleSubmit(onSubmit)}>
               <div className="form-div hori-control">
@@ -48,12 +44,7 @@ export default function Form({ venueFormSubmit }) {
           </div>
         </>
       ) : (
-        <div className="row">
-          <button className="toggler" onClick={handleToggle}>
-            <i className="fas fa-plus"></i>
-          </button>
-          <p>Add new venue...</p>
-        </div>
+        <Opener toggle={handleToggle} text="Add new venue..." />
       )}
     </div>
   );
