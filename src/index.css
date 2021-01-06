@@ -168,6 +168,7 @@ header h1 {
 }
 .form-div input {
   padding: 0.3rem 0.2rem;
+  min-width: 60%;
 }
 .hori-control {
   /* margin: 0.5rem; */

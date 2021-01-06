@@ -10,6 +10,7 @@ export default function Programs() {
   const [error, setError] = useState(false);
 
   const handleFormSubmit = (data) => {
+    // THIS IS NOT REAL CODE ****
     fetch("api/venues", {
       method: "POST",
       body: JSON.stringify({ data }),
