@@ -73,33 +73,6 @@ export default function ProgramForm({ programFormSubmit }) {
                   ))}
                 </select>
               </div>
-              <div className="form-div hori-control">
-                <label htmlFor="composer">Composer</label>
-                <input
-                  type="text"
-                  name="composer"
-                  id="composer"
-                  ref={register}
-                />
-              </div>
-              <div className="form-div hori-control">
-                <label htmlFor="imslp_title">IMSLP Title</label>
-                <input
-                  type="text"
-                  name="imslp_title"
-                  id="imslp_title"
-                  ref={register}
-                />
-              </div>
-              <div className="form-div hori-control">
-                <label htmlFor="performance_notes">Performance Notes</label>
-                <input
-                  type="text"
-                  name="performance_notes"
-                  id="performance_notes"
-                  ref={register}
-                />
-              </div>
               <div>
                 {/* <div className="form-div hori-control"> */}
                 <button className="submit-btn" type="submit">

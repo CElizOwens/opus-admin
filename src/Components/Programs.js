@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import LoadingBox from "./LoadingBox";
 import MessageBox from "./MessageBox";
+import PerformanceForm from "./PerformanceForm";
 import Performances from "./Performances";
 import ProgramForm from "./ProgramForm";
 
@@ -61,6 +62,7 @@ export default function Programs() {
                 <h1 className="heading central">
                   {program.event.name} {program.event.day_time}
                 </h1>
+                <PerformanceForm />
                 <Performances performances={program.performances} />
               </div>
             ))}
