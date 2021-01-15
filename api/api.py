@@ -3,6 +3,7 @@ from api.persistence import persistence
 from flask import redirect, request
 import time
 import json
+import http
 # import urllib.parse as up
 
 
@@ -40,8 +41,14 @@ def get_repertoire():
     return to_json(persistence.get_all_performances())
 
 
-@app.route('/api/programs')
+@app.route('/api/programs', methods=['GET', 'POST'])
 def get_programs():
+    if request.method == 'POST':
+        req = json.loads(request.data)['data']
+        print(f'******* req = {req[data]} *******\n Type = {type(req)}')
+
+        # ******* THIS IS NOT FINISHED *******
+
     # get list of Event namedtuples
     events = persistence.get_all_events()
     programs = []
@@ -63,12 +70,31 @@ def get_programs():
     return programs_json
 
 
+@app.route('/api/performances/<event_id>', methods=['POST'])
+def add_performance(event_id):
+    if request.method == 'POST':
+        req = json.loads(request.data)['data']
+        print(
+            f'******* req = {req}\n******* Event ID: {event_id}\n******* Type of req = {type(req)}')
+        persistence.insert_performance(event_id, req['composer'],
+                                       req['imslp_title'], req['performance_notes'])
+    return "Success"
+
+
 @app.route('/api/composers')
 def get_composers():
     composers_nts = persistence.get_all_composers()
     composers_dicts = [nt._asdict() for nt in composers_nts]
     composers_json = json.dumps(composers_dicts)
     return composers_json
+
+
+@app.route('/api/composer_pieces/<name>')
+def get_pieces_by_composer(name):
+    composer_rep_nts = persistence.get_composer_rep(name)
+    composer_rep_dicts = [nt._asdict() for nt in composer_rep_nts]
+    composer_rep_json = json.dumps(composer_rep_dicts)
+    return composer_rep_json
 
 
 def to_json(nts):

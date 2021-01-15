@@ -6,22 +6,22 @@ export default function ProgramForm({ programFormSubmit }) {
   const { register, handleSubmit, reset } = useForm();
   const [needForm, setNeedForm] = useState(false);
   const [venues, setVenues] = useState([]);
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState(false);
+  //   const [loading, setLoading] = useState(false);
+  //   const [error, setError] = useState(false);
 
   async function getVenues() {
     try {
-      setLoading(true);
+      //   setLoading(true);
 
       const res = await fetch("/api/venues");
       const data = await res.json();
-      setLoading(false);
+      //   setLoading(false);
       // console.log(data);
       setVenues(data);
       // console.log(res);
     } catch (err) {
-      setError(err.message);
-      setLoading(false);
+      //   setError(err.message);
+      //   setLoading(false);
     }
   }
   useEffect(() => {

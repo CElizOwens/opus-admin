@@ -1,4 +1,4 @@
-from api.models.model import Composer, Piece, Event, Venue, Performance, Program  # , Ensemble
+from api.models.model import Composer, Composer_rep, Piece, Event, Venue, Performance, Program  # , Ensemble
 from api.config import databaseURI, test_databaseURI
 from sqlalchemy import create_engine, text
 
@@ -9,14 +9,6 @@ engine = create_engine(test_databaseURI, echo=True)
 
 def get_all_pieces():
     with engine.connect() as con:
-        # result = con.execute("SELECT c.name, p.title, p.opus, e.ens_type FROM piece p INNER JOIN ensemble e ON p.ensemble_id = e.id INNER JOIN composer c ON p.composer_id = c.id;")
-
-        #     result = con.execute("SELECT c.name, p.title FROM piece p INNER JOIN composer c ON p.composer_id = c.id;")
-        #     pieces = []
-        #     for row in result:
-        #         pieces.append(Piece(**row))
-        # return pieces
-
         result = con.execute(
             "SELECT c.name, p.title FROM performance pf INNER JOIN piece p ON pf.piece_id = p.id INNER JOIN composer c ON p.composer_id = c.id;")
         repertoire = [Piece(**row) for row in result]
@@ -29,6 +21,15 @@ def get_all_composers():
         result = con.execute("SELECT * FROM composer;")
         names = [Composer(**row) for row in result]
     return names
+
+
+# Returns all pieces by selected composer
+def get_composer_rep(selected_comp):
+    with engine.connect() as con:
+        result = con.execute(text(
+            "SELECT p.id, p.title FROM piece p INNER JOIN composer c ON p.composer_id = c.id WHERE c.name = :selected_comp ORDER BY p.title;"), selected_comp=selected_comp)
+    composer_rep = [Composer_rep(**row) for row in result]
+    return composer_rep
 
 
 # Returns an array of Venue namedtuples
