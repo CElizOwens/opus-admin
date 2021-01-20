@@ -70,7 +70,7 @@ def get_event_performances(event_id):
 def get_all_performances():
     with engine.connect() as con:
         result = con.execute(
-            "SELECT c.name, p.title, pf.notes FROM performance pf INNER JOIN piece p ON pf.piece_id = p.id INNER JOIN composer c ON p.composer_id = c.id;")
+            "SELECT c.name, p.title, pf.notes FROM performance pf INNER JOIN piece p ON pf.piece_id = p.id INNER JOIN composer c ON p.composer_id = c.id ORDER BY name;")
         performances = [Performance(**row) for row in result]
     return performances
 
@@ -88,10 +88,10 @@ def insert_venue(name, address, link):
                     name=name, address=address, link=link)
 
 
-def insert_event(location, day_time):  # TO BE EDITED
+def insert_event(day_time, venue_id):  # TO BE EDITED
     with engine.connect() as con:
-        con.execute(text("INSERT INTO event (location, day_time) VALUES (:location, :day_time);"),
-                    location=location, day_time=day_time)
+        con.execute(text("INSERT INTO event (venue_id, day_time) VALUES (:venue_id, :day_time);"),
+                    venue_id=venue_id, day_time=day_time)
 
 
 def insert_performance(event_id, name, title, notes):

@@ -57,12 +57,12 @@ export default function ProgramForm({ programFormSubmit }) {
                 />
               </div>
               <div className="form-div hori-control">
-                <label htmlFor="venue">Venue</label>
-                {/* <input type="text" name="venue" ref={register} /> */}
+                <label htmlFor="venue_id">Venue</label>
+                {/* <input type="text" name="venue_id" ref={register} /> */}
                 <select
                   defaultValue={""}
-                  name="venue"
-                  id="venue"
+                  name="venue_id"
+                  id="venue_id"
                   ref={register}
                 >
                   <option value="">Choose venue...</option>
@@ -83,7 +83,7 @@ export default function ProgramForm({ programFormSubmit }) {
           </div>
         </>
       ) : (
-        <Opener toggle={handleToggle} text="Add new program..." />
+        <Opener toggle={handleToggle} text="Add new event..." />
       )}
     </div>
   );

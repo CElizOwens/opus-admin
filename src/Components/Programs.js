@@ -7,19 +7,35 @@ import ProgramForm from "./ProgramForm";
 
 export default function Programs() {
   const [programs, setPrograms] = useState([]);
-  const [perfSubBool, setPerfSubBool] = useState(false);
+  const [submitPerfBool, setSubmitPerfBool] = useState(false);
+  // const [submitProgBool, setSubmitProgBool] = useState(false);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(false);
 
   const handleProgramFormSubmit = (data) => {
-    fetch("api/programs", {
+    setLoading(true);
+    return fetch("api/programs", {
       method: "POST",
       body: JSON.stringify({ data }),
       headers: {
         "Content-type": "application/json",
       },
-    });
-    setPerfSubBool(!perfSubBool);
+    })
+      .then((res) => {
+        return res.json();
+      })
+      .then((data) => {
+        console.log(data);
+        setLoading(false);
+        setPrograms([...data]);
+      })
+      .then(setSubmitPerfBool(!submitPerfBool))
+      .catch((err) => {
+        setError(err.message);
+        setLoading(false);
+      });
+
+    // setSubmitProgBool(!submitProgBool);
     // getPrograms();
   };
 
@@ -35,7 +51,7 @@ export default function Programs() {
       },
     });
     // console.log("We've gotten to 'getPrograms()'.");
-    setPerfSubBool(!perfSubBool);
+    setSubmitPerfBool(!submitPerfBool);
     // getPrograms();
   };
 
@@ -78,7 +94,7 @@ export default function Programs() {
     return () => {
       setPrograms([]);
     };
-  }, [getPrograms, perfSubBool]);
+  }, [getPrograms, submitPerfBool]);
 
   return (
     <div>

@@ -1,6 +1,7 @@
 from api import app
 from api.persistence import persistence
 from flask import redirect, request
+from dateutil.parser import parse
 import time
 import json
 import http
@@ -45,10 +46,11 @@ def get_repertoire():
 def get_programs():
     if request.method == 'POST':
         req = json.loads(request.data)['data']
-        print(f'******* req = {req[data]} *******\n Type = {type(req)}')
-
+        print(f'******* req = {req} *******\n Type = {type(req)}')
+        persistence.insert_event(parse(req['day_time']), req['venue_id'])
         # ******* THIS IS NOT FINISHED *******
-
+        # return "Success"
+        redirect('/api/programs')
     # get list of Event namedtuples
     events = persistence.get_all_events()
     programs = []
