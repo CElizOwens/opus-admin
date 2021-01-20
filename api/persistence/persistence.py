@@ -118,7 +118,7 @@ def get_event(event_id):
 def get_all_events():
     with engine.connect() as con:
         result = con.execute(
-            "SELECT e.id, v.name, e.day_time FROM event e INNER JOIN venue v ON e.venue_id = v.id;")
+            "SELECT e.id, v.name, e.day_time FROM event e INNER JOIN venue v ON e.venue_id = v.id ORDER BY day_time DESC;")
         events = [Event(**row) for row in result]
     return events
 

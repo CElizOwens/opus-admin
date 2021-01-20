@@ -61,7 +61,7 @@ def get_programs():
         performances_dicts = [nt._asdict() for nt in performances_nts]
         # print(
         #     f"**** event date -------> {event.day_time.strftime('%X %x')}")
-        date_string = event.day_time.strftime('%X %x')
+        date_string = event.day_time.strftime('%x %X')
         event_dicts = event._asdict()
         # print(f"*** event as dict -------> {event_dicts}")
         # print(f"*** event dict day_time -------> {event_dicts['day_time']}")

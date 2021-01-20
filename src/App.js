@@ -3,7 +3,7 @@ import Home from "./Components/Home";
 import Login from "./Components/Login";
 import Programs from "./Components/Programs";
 import Repertoire from "./Components/Repertoire";
-import Time from "./Components/Time";
+// import Time from "./Components/Time";
 import Venues from "./Components/Venues";
 
 function App() {
@@ -20,8 +20,9 @@ function App() {
             <div>
               <Link to="/programs">Programs</Link> |{" "}
               <Link to="/repertoire">Repertoire</Link> |{" "}
-              <Link to="/venues">Venues</Link> | <Link to="/login">Login</Link>{" "}
-              | <Link to="/time">Time Zones</Link>
+              <Link to="/venues">Venues</Link> | <Link to="/login">Login</Link>
+              {/*{" "}
+              | <Link to="/time">Time Zones</Link>*/}
             </div>
           </header>
           <main>
@@ -42,9 +43,9 @@ function App() {
                 <Route path="/venues">
                   <Venues />
                 </Route>
-                <Route path="/time">
+                {/* <Route path="/time">
                   <Time />
-                </Route>
+                </Route> */}
               </Switch>
             </div>
           </main>
