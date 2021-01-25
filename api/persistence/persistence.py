@@ -71,7 +71,9 @@ def get_all_performances():
     with engine.connect() as con:
         result = con.execute(
             "SELECT c.name, p.title, pf.notes FROM performance pf INNER JOIN piece p ON pf.piece_id = p.id INNER JOIN composer c ON p.composer_id = c.id ORDER BY name;")
-        performances = [Performance(**row) for row in result]
+        seen = set()
+        performances = [Performance(**row) for row in result if not (
+            tuple(row) in seen or seen.add(tuple(row)))]
     return performances
 
 
