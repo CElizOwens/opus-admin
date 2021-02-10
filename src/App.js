@@ -1,3 +1,4 @@
+import React from "react";
 import { BrowserRouter, Switch, Route, Link } from "react-router-dom";
 import Home from "./Components/Home";
 import Login from "./Components/Login";
@@ -7,6 +8,12 @@ import Repertoire from "./Components/Repertoire";
 import Venues from "./Components/Venues";
 
 function App() {
+  // const [token, setToken] = useState();
+
+  // if (!token) {
+  //   return <Login setToken={setToken} />;
+  // }
+
   return (
     <>
       <BrowserRouter>

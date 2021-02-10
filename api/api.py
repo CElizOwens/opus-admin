@@ -1,11 +1,15 @@
 from api import app
+from api.config import db
 from api.persistence import persistence
-from flask import redirect, request
+from flask import abort, g, redirect, request, url_for
+from flask_httpauth import HTTPBasicAuth
+from api.userModel import User
+
 from dateutil.parser import parse
-import time
 import json
-import http
-# import urllib.parse as up
+import time
+
+auth = HTTPBasicAuth()
 
 
 @app.errorhandler(404)
@@ -13,9 +17,56 @@ def not_found(e):
     return app.send_static_file('index.html')
 
 
-# @app.route('api/url')
-# def encode(url_str):
-#     return up.quote_plus(url_str)
+@app.route('/api/resource')
+@auth.login_required
+def get_resource():
+    return {'data': 'Hello, %s!' % g.user.username}
+
+
+@auth.verify_password
+def verify_password(username_or_token, password):
+    # first try to authenticate by token
+    user = User.verify_auth_token(username_or_token)
+    if not user:
+        # try to athenticate with username/password
+        user = User.query.filter_by(username=username_or_token).first()
+        if not user or not user.verify_password(password):
+            return False
+    g.user = user
+    return True
+
+
+@app.route('/api/users', methods=['POST'])
+def new_user():
+    username = request.json.get('username')
+    password = request.json.get('password')
+    if username is None or password is None:
+        abort(400)  # missing arguments
+    if User.query.filter_by(username=username).first() is not None:
+        abort(400)  # existing user
+    user = User(username=username)
+    user.hash_password(password)
+    db.session.add(user)
+    db.session.commit()
+    return ({
+        'username': user.username},
+        201,
+        {'Location': url_for('get_user', id=user.id, _external=True)})
+
+
+@app.route('/api/users/<int:id>')
+def get_user(id):
+    user = User.query.get(id)
+    if not user:
+        abort(400)
+    return {'username': user.username}
+
+
+@app.route('/api/token')
+@auth.login_required
+def get_auth_token():
+    token = g.user.generate_auth_token(600)
+    return {'token': token.decode('ascii'), 'duration': 600}
 
 
 @app.route('/api/time')
@@ -24,6 +75,7 @@ def get_current_time():
 
 
 @app.route('/api/venues', methods=['GET', 'POST'])
+@auth.login_required
 def get_venues():
     if request.method == 'POST':
         req = json.loads(request.data)['data']
@@ -33,7 +85,6 @@ def get_venues():
         address = req['address']
         link = req['link']
         persistence.insert_venue(name, address, link)
-        # redirect('/api/venues')
     return to_json(persistence.get_all_venues())
 
 
@@ -43,13 +94,12 @@ def get_repertoire():
 
 
 @app.route('/api/programs', methods=['GET', 'POST'])
+@auth.login_required
 def get_programs():
     if request.method == 'POST':
         req = json.loads(request.data)['data']
         print(f'******* req = {req} *******\n Type = {type(req)}')
         persistence.insert_event(parse(req['day_time']), req['venue_id'])
-        # ******* THIS IS NOT FINISHED *******
-        # return "Success"
         redirect('/api/programs')
     # get list of Event namedtuples
     events = persistence.get_all_events()
@@ -73,13 +123,16 @@ def get_programs():
 
 
 @app.route('/api/performances/<event_id>', methods=['POST'])
+@auth.login_required
 def add_performance(event_id):
     if request.method == 'POST':
         req = json.loads(request.data)['data']
         print(
-            f'******* req = {req}\n******* Event ID: {event_id}\n******* Type of req = {type(req)}')
+            f'******* req = {req}\n******* Event ID: {event_id}\n' +
+            f'******* Type of req = {type(req)}')
         persistence.insert_performance(event_id, req['composer'],
-                                       req['imslp_title'], req['performance_notes'])
+                                       req['imslp_title'],
+                                       req['performance_notes'])
     return "Success"
 
 
