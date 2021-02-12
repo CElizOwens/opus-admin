@@ -3,11 +3,39 @@ import { useForm } from "react-hook-form";
 
 export default function Login() {
   const { register, handleSubmit, errors, reset } = useForm();
-  const onSubmit = (data, e) => {
-    console.log(data);
-    // e.target.reset();
+  // const [username, setUsername] = useState("");
+  // const [password, setPassword] = useState("");
+
+  const onSubmit = (data) => {
+    console.log("You pressed login");
+    let opts = {
+      username: data.email,
+      password: data.password,
+    };
+    console.log(opts);
+    fetch("/api/login", {
+      method: "post",
+      body: JSON.stringify(opts),
+    })
+      .then((r) => r.json())
+      .then((token) => {
+        if (token.access_token) {
+          console.log(token);
+        } else {
+          console.log("Please type in correct username/password.");
+        }
+      });
     reset();
   };
+
+  // const handleUsernameChange = (e) => {
+  //   setUsername(e.target.value);
+  // };
+
+  // const handlePasswordChange = (e) => {
+  //   setPassword(e.target.value);
+  // };
+
   return (
     <div>
       <h1 className="row central title">Login</h1>
@@ -19,6 +47,8 @@ export default function Login() {
             <input
               type="text"
               name="email"
+              // onChange={handleUsernameChange}
+              // value={username}
               ref={register({
                 required: "*Email is required.",
                 pattern: {
@@ -35,6 +65,8 @@ export default function Login() {
             <input
               type="password"
               name="password"
+              // onChange={handlePasswordChange}
+              // value={password}
               ref={register({
                 required: "*Password is required.",
                 minLength: {
