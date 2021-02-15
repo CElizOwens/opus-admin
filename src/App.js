@@ -2,6 +2,8 @@ import React from "react";
 import { BrowserRouter, Switch, Route, Link } from "react-router-dom";
 import Home from "./Components/Home";
 import Login from "./Components/Login";
+import { PrivateRoute } from "./Components/PrivateRoute";
+import Secret from "./Components/Secret";
 import Programs from "./Components/Programs";
 import Repertoire from "./Components/Repertoire";
 // import Time from "./Components/Time";
@@ -27,7 +29,8 @@ function App() {
             <div>
               <Link to="/programs">Programs</Link> |{" "}
               <Link to="/repertoire">Repertoire</Link> |{" "}
-              <Link to="/venues">Venues</Link> | <Link to="/login">Login</Link>
+              <Link to="/venues">Venues</Link> | <Link to="/login">Login</Link>{" "}
+              | <Link to="/secret">Secret</Link>
               {/*{" "}
               | <Link to="/time">Time Zones</Link>*/}
             </div>
@@ -47,6 +50,7 @@ function App() {
                 <Route path="/repertoire">
                   <Repertoire />
                 </Route>
+                <PrivateRoute path="/secret" component={Secret} />
                 <Route path="/venues">
                   <Venues />
                 </Route>
