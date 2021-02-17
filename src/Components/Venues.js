@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import VenueForm from "./VenueForm";
 import LoadingBox from "./LoadingBox";
 import MessageBox from "./MessageBox";
@@ -7,6 +7,7 @@ export default function Venues() {
   const [venues, setVenues] = useState([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(false);
+  const [submitVenBool, setSubmitVenBool] = useState(false);
 
   const handleFormSubmit = (data) => {
     fetch("api/venues", {
@@ -16,30 +17,49 @@ export default function Venues() {
         "Content-type": "application/json",
       },
     });
-    getVenues();
+    setSubmitVenBool(!submitVenBool);
+    // getVenues();
   };
 
-  async function getVenues() {
-    try {
-      setLoading(true);
+  const getVenues = useCallback(() => {
+    setLoading(true);
+    return fetch("/api/venues")
+      .then((res) => {
+        return res.json();
+      })
+      .then((data) => {
+        console.log(data);
+        setLoading(false);
+        setVenues([...data]);
+      })
+      .catch((err) => {
+        setError(err.message);
+        setLoading(false);
+      });
+  }, []);
 
-      const res = await fetch("/api/venues");
-      const data = await res.json();
-      setLoading(false);
-      // console.log(data);
-      setVenues(data);
-      // console.log(res);
-    } catch (err) {
-      setError(err.message);
-      setLoading(false);
-    }
-  }
+  // async function getVenues() {
+  //   try {
+  //     setLoading(true);
+
+  //     const res = await fetch("/api/venues");
+  //     const data = await res.json();
+  //     setLoading(false);
+  //     // console.log(data);
+  //     setVenues(data);
+  //     // console.log(res);
+  //   } catch (err) {
+  //     setError(err.message);
+  //     setLoading(false);
+  //   }
+  // }
+
   useEffect(() => {
     getVenues();
     return () => {
       setVenues([]);
     };
-  }, []);
+  }, [getVenues, submitVenBool]);
 
   return (
     <div>

@@ -2,20 +2,16 @@ import React from "react";
 import { BrowserRouter, Switch, Route, Link } from "react-router-dom";
 import Home from "./Components/Home";
 import Login from "./Components/Login";
-import { PrivateRoute } from "./Components/PrivateRoute";
-import Secret from "./Components/Secret";
+// import { PrivateRoute } from "./Components/PrivateRoute";
+// import Secret from "./Components/Secret";
 import Programs from "./Components/Programs";
 import Repertoire from "./Components/Repertoire";
 // import Time from "./Components/Time";
 import Venues from "./Components/Venues";
+import { useAuth } from "./auth";
 
 function App() {
-  // const [token, setToken] = useState();
-
-  // if (!token) {
-  //   return <Login setToken={setToken} />;
-  // }
-
+  const [logged] = useAuth();
   return (
     <>
       <BrowserRouter>
@@ -23,14 +19,15 @@ function App() {
           <header className="row">
             <div>
               <Link to="/">
-                <h1>Opus Admin Site</h1>
+                <h1>Opus Oakland</h1>
               </Link>
             </div>
             <div>
               <Link to="/programs">Programs</Link> |{" "}
               <Link to="/repertoire">Repertoire</Link> |{" "}
-              <Link to="/venues">Venues</Link> | <Link to="/login">Login</Link>{" "}
-              | <Link to="/secret">Secret</Link>
+              <Link to="/venues">Venues</Link> |{" "}
+              <Link to="/login">{!logged ? <>Login</> : <>Logout</>}</Link>{" "}
+              {/* | <Link to="/secret">Secret</Link> */}
               {/*{" "}
               | <Link to="/time">Time Zones</Link>*/}
             </div>
@@ -45,12 +42,13 @@ function App() {
                   <Login />
                 </Route>
                 <Route path="/programs">
+                  {/* <PrivateRoute path="/programs" component={Programs} /> */}
                   <Programs />
                 </Route>
                 <Route path="/repertoire">
                   <Repertoire />
                 </Route>
-                <PrivateRoute path="/secret" component={Secret} />
+                {/* <PrivateRoute path="/secret" component={Secret} /> */}
                 <Route path="/venues">
                   <Venues />
                 </Route>

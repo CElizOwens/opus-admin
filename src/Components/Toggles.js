@@ -1,17 +1,29 @@
 import React from "react";
+import { useAuth } from "../auth";
 
 export function Opener({ toggle, text }) {
-  // const [needForm, setNeedForm] = useState(false);
-  // const handleToggle = () => {
-  //   setNeedForm(!needForm);
-  // };
+  const [logged] = useAuth();
+
   return (
-    <div className="row">
-      <button className="toggler" onClick={toggle}>
-        <i className="fas fa-plus"></i>
-      </button>
-      <p>{text}</p>
-    </div>
+    <>
+      {!logged ? (
+        <div className="row">
+          <button className="toggler">
+            <i className="fas fa-plus"></i>
+          </button>
+          <p>
+            <i>Login required</i>
+          </p>
+        </div>
+      ) : (
+        <div className="row">
+          <button className="toggler" onClick={toggle}>
+            <i className="fas fa-plus"></i>
+          </button>
+          <p>{text}</p>
+        </div>
+      )}
+    </>
   );
 }
 

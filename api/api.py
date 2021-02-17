@@ -135,7 +135,6 @@ def get_current_time():
 
 
 @app.route("/api/venues", methods=["GET", "POST"])
-# @auth.login_required
 def get_venues():
     if request.method == "POST":
         req = json.loads(request.data)["data"]
@@ -154,7 +153,6 @@ def get_repertoire():
 
 
 @app.route("/api/programs", methods=["GET", "POST"])
-# @auth.login_required
 def get_programs():
     if request.method == "POST":
         req = json.loads(request.data)["data"]
@@ -182,7 +180,6 @@ def get_programs():
 
 
 @app.route("/api/performances/<event_id>", methods=["POST"])
-# @auth.login_required
 def add_performance(event_id):
     if request.method == "POST":
         req = json.loads(request.data)["data"]
