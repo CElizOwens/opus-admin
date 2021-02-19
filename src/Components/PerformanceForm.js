@@ -1,26 +1,32 @@
 import React, { useState, useEffect } from "react";
 import { useForm } from "react-hook-form";
+// import LoadingBox from "./LoadingBox";
+// import MessageBox from "./MessageBox";
 import { Opener, Closer } from "./Toggles";
 
 export default function PerformanceForm({ event_id, performanceFormSubmit }) {
   const { register, handleSubmit, reset } = useForm();
   const [needForm, setNeedForm] = useState(false);
   const [composers, setComposers] = useState([]);
+  // const composers = [];
   const [compRep, setCompRep] = useState([]);
+  // const [loading, setLoading] = useState(false);
+  // const [error, setError] = useState(false);
 
   async function getComposers() {
     try {
-      //   setLoading(true);
+      // setLoading(true);
 
       const res = await fetch("/api/composers");
       const data = await res.json();
-      //   setLoading(false);
-      // console.log(data);
+      // setLoading(false);
+      console.log(data);
       setComposers(data);
+      // composers = data;
       // console.log(res);
     } catch (err) {
-      //   setError(err.message);
-      //   setLoading(false);
+      // setError(err.message);
+      // setLoading(false);
     }
   }
 
@@ -60,6 +66,12 @@ export default function PerformanceForm({ event_id, performanceFormSubmit }) {
 
   return (
     <div className="card">
+      {/* {loading ? (
+        <LoadingBox />
+      ) : error ? (
+        <MessageBox variant="danger">{error}</MessageBox>
+      ) : (
+        <> */}
       {needForm ? (
         <>
           <Closer toggle={handleToggle} />
@@ -134,6 +146,8 @@ export default function PerformanceForm({ event_id, performanceFormSubmit }) {
       ) : (
         <Opener toggle={handleToggle} text="Add new performance..." />
       )}
+      {/* </>
+      )} */}
     </div>
   );
 }

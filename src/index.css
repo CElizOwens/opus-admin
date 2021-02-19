@@ -180,6 +180,9 @@ header h1 {
 .hori-control input {
   margin-left: 1rem;
 }
+.hori-control label {
+  margin-right: 0.5rem;
+}
 .vert-control {
   flex-direction: column;
 }
@@ -195,6 +198,7 @@ header h1 {
 .toggler {
   padding: 0.1rem 0.3rem;
 }
+
 .closing-toggle {
   margin-bottom: 1rem;
   font-size: smaller;
