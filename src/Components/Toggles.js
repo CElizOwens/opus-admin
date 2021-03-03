@@ -17,7 +17,7 @@ export function Opener({ toggle, text }) {
         </div>
       ) : (
         <div className="row">
-          <button className="toggler" onClick={toggle}>
+          <button className="toggler slow-btn" onClick={toggle}>
             <i className="fas fa-plus"></i>
           </button>
           <p>{text}</p>

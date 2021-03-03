@@ -1,5 +1,13 @@
 # flake8: noqa=E501
-from api.models.model import Composer, Composer_rep, Piece, Event, Venue, Performance, Program  # , Ensemble
+from api.models.model import (
+    Composer,
+    Composer_rep,
+    Piece,
+    Event,
+    Venue,
+    Performance,
+    Program,
+)  # , Ensemble
 from api.config import databaseURI, test_databaseURI  # noqa: F401
 from sqlalchemy import create_engine, text
 
@@ -11,7 +19,8 @@ engine = create_engine(test_databaseURI, echo=True)
 def get_all_pieces():
     with engine.connect() as con:
         result = con.execute(
-            "SELECT c.name, p.title FROM performance pf INNER JOIN piece p ON pf.piece_id = p.id INNER JOIN composer c ON p.composer_id = c.id;")
+            "SELECT c.name, p.title FROM performance pf INNER JOIN piece p ON pf.piece_id = p.id INNER JOIN composer c ON p.composer_id = c.id;"
+        )
         repertoire = [Piece(**row) for row in result]
     return repertoire
 
@@ -27,8 +36,12 @@ def get_all_composers():
 # Returns all pieces by selected composer
 def get_composer_rep(selected_comp):
     with engine.connect() as con:
-        result = con.execute(text(
-            "SELECT p.id, p.title FROM piece p INNER JOIN composer c ON p.composer_id = c.id WHERE c.name = :selected_comp ORDER BY p.title;"), selected_comp=selected_comp)
+        result = con.execute(
+            text(
+                "SELECT p.id, p.title FROM piece p INNER JOIN composer c ON p.composer_id = c.id WHERE c.name = :selected_comp ORDER BY p.title;"
+            ),
+            selected_comp=selected_comp,
+        )
     composer_rep = [Composer_rep(**row) for row in result]
     return composer_rep
 
@@ -61,8 +74,12 @@ def get_program(event):
 # returns a list of performance namedtuples from a single event
 def get_event_performances(event_id):
     with engine.connect() as con:
-        result = con.execute(text(
-            "SELECT c.name, p.title, pf.notes FROM performance pf  INNER JOIN piece p ON pf.piece_id = p.id INNER JOIN composer c ON p.composer_id = c.id WHERE pf.event_id = :event_id;"), event_id=event_id)
+        result = con.execute(
+            text(
+                "SELECT c.name, p.title, pf.notes FROM performance pf  INNER JOIN piece p ON pf.piece_id = p.id INNER JOIN composer c ON p.composer_id = c.id WHERE pf.event_id = :event_id;"
+            ),
+            event_id=event_id,
+        )
         performances = [Performance(**row) for row in result]
     return performances
 
@@ -71,57 +88,107 @@ def get_event_performances(event_id):
 def get_all_performances():
     with engine.connect() as con:
         result = con.execute(
-            "SELECT c.name, p.title, pf.notes FROM performance pf INNER JOIN piece p ON pf.piece_id = p.id INNER JOIN composer c ON p.composer_id = c.id ORDER BY name;")
+            "SELECT c.name, p.title, pf.notes FROM performance pf INNER JOIN piece p ON pf.piece_id = p.id INNER JOIN composer c ON p.composer_id = c.id ORDER BY name;"
+        )
         seen = set()
-        performances = [Performance(**row) for row in result if not (
-            tuple(row) in seen or seen.add(tuple(row)))]
+        performances = [
+            Performance(**row)
+            for row in result
+            if not (tuple(row) in seen or seen.add(tuple(row)))
+        ]
     return performances
 
 
 def insert_piece(name, title):  # TO BE EDITED
     with engine.connect() as con:
         # con.execute(text("INSERT INTO piece (composer, title, opus, ensemble_id) VALUES (:composer, :title, :opus, :ensemble_id);"), composer=composer, title=title, opus=opus, ensemble_id=ensemble_id)
-        con.execute(text(
-            "INSERT INTO piece (name, title) VALUES (:name, :title);"), name=name, title=title)
+        con.execute(
+            text("INSERT INTO piece (name, title) VALUES (:name, :title);"),
+            name=name,
+            title=title,
+        )
 
 
 def insert_venue(name, address, link):
     with engine.connect() as con:
-        con.execute(text("INSERT IGNORE INTO venue (name, address, link) VALUES (:name, :address, :link);"),
-                    name=name, address=address, link=link)
+        con.execute(
+            text(
+                "INSERT IGNORE INTO venue (name, address, link) VALUES (:name, :address, :link);"
+            ),
+            name=name,
+            address=address,
+            link=link,
+        )
 
 
-def insert_event(day_time, venue_id):  # TO BE EDITED
+def insert_event(day_time, venue_id):
     with engine.connect() as con:
-        con.execute(text("INSERT INTO event (venue_id, day_time) VALUES (:venue_id, :day_time);"),
-                    venue_id=venue_id, day_time=day_time)
+        con.execute(
+            text(
+                "INSERT INTO event (venue_id, day_time) VALUES (:venue_id, :day_time);"
+            ),
+            venue_id=venue_id,
+            day_time=day_time,
+        )
+    return get_event_id(day_time, venue_id)
 
 
 def insert_performance(event_id, name, title, notes):
     with engine.connect() as con:
-        result = con.execute(text(
-            "SELECT p.id FROM piece p INNER JOIN composer c ON p.composer_id = c.id WHERE c.name = :name AND p.title = :title;"), name=name, title=title)
+        result = con.execute(
+            text(
+                "SELECT p.id FROM piece p INNER JOIN composer c ON p.composer_id = c.id WHERE c.name = :name AND p.title = :title;"
+            ),
+            name=name,
+            title=title,
+        )
         row = result.fetchone()
         piece_id = row.id
-        con.execute(text("INSERT INTO performance (event_id, piece_id, notes) VALUES (:event_id, :piece_id, :notes);"),
-                    event_id=event_id, piece_id=piece_id, notes=notes)
+        con.execute(
+            text(
+                "INSERT INTO performance (event_id, piece_id, notes) VALUES (:event_id, :piece_id, :notes);"
+            ),
+            event_id=event_id,
+            piece_id=piece_id,
+            notes=notes,
+        )
 
 
 # returns an event namedtuple
 def get_event(event_id):
     with engine.connect() as con:
-        result = con.execute(text(
-            "SELECT e.id, v.name, e.day_time FROM event e INNER JOIN venue v ON e.venue_id = v.id WHERE e.id = :event_id;"), event_id=event_id)
+        result = con.execute(
+            text(
+                "SELECT e.id, v.name, e.day_time FROM event e INNER JOIN venue v ON e.venue_id = v.id WHERE e.id = :event_id;"
+            ),
+            event_id=event_id,
+        )
         row = result.fetchone()
         event = Event(**row)
     return event
+
+
+# takes venue_id and parsed date and time from submitted program form, returns newly created event_id
+def get_event_id(day_time, venue_id):
+    with engine.connect() as con:
+        result = con.execute(
+            text(
+                "SELECT id FROM event WHERE day_time = :day_time AND venue_id = :venue_id;"
+            ),
+            day_time=day_time,
+            venue_id=venue_id,
+        )
+        row = result.fetchone()
+        event_id = row.id
+    return event_id  # should be an int
 
 
 # returns a list of all event namedtuples
 def get_all_events():
     with engine.connect() as con:
         result = con.execute(
-            "SELECT e.id, v.name, e.day_time FROM event e INNER JOIN venue v ON e.venue_id = v.id ORDER BY day_time DESC;")
+            "SELECT e.id, v.name, e.day_time FROM event e INNER JOIN venue v ON e.venue_id = v.id ORDER BY day_time DESC;"
+        )
         events = [Event(**row) for row in result]
     return events
 

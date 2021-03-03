@@ -152,13 +152,13 @@ def get_repertoire():
     return to_json(persistence.get_all_performances())
 
 
-@app.route("/api/programs", methods=["GET", "POST"])
+@app.route("/api/programs/", methods=["GET"])
 def get_programs():
-    if request.method == "POST":
-        req = json.loads(request.data)["data"]
-        print(f"******* req = {req} *******\n Type = {type(req)}")
-        persistence.insert_event(parse(req["day_time"]), req["venue_id"])
-        redirect("/api/programs")
+    """
+    event_id can either be 0 and programs are returned with no event in focus
+    OR programs will be returned with the given event_id in focus
+    """
+    # print(f"******* event_id passed to get_programs() = {event_id} *******")
     # get list of Event namedtuples
     events = persistence.get_all_events()
     programs = []
@@ -176,21 +176,76 @@ def get_programs():
         event_dicts["day_time"] = date_string
         programs.append({"event": event_dicts, "performances": performances_dicts})
     programs_json = json.dumps(programs)
+    print("\nprograms_json:\n")
+    # from pprint import pprint
+    # pprint(programs_json)
+
+    print(json.dumps(programs, indent=2))
+    print("\n\n")
     return programs_json
 
 
-@app.route("/api/performances/<event_id>", methods=["POST"])
-def add_performance(event_id):
-    if request.method == "POST":
-        req = json.loads(request.data)["data"]
-        print(
-            f"******* req = {req}\n******* Event ID: {event_id}\n"
-            + f"******* Type of req = {type(req)}"
-        )
-        persistence.insert_performance(
-            event_id, req["composer"], req["imslp_title"], req["performance_notes"]
-        )
-    return "Success"
+@app.route("/api/new_program", methods=["POST"])
+def add_program():
+    """
+    Inserts new program, returns its newly assigned event_id
+    """
+    req = json.loads(request.data)["data"]
+    print(f"******* req = {req} *******\n Type = {type(req)}")
+    day_time = parse(req["day_time"])
+    venue_id = req["venue_id"]
+    event_id = persistence.insert_event(day_time, venue_id)
+    print(f"******* event_id = {event_id}, Type = {type(event_id)}")
+    return event_id  # not sure what type this is
+
+
+# @app.route("/api/programs", methods=["GET", "POST"])
+# def get_programs():
+#     if request.method == "POST":
+#         req = json.loads(request.data)["data"]
+#         print(f"******* req = {req} *******\n Type = {type(req)}")
+#         day_time = parse(req["day_time"])
+#         venue_id = req["venue_id"]
+#         persistence.insert_event(day_time, venue_id)
+#         redirect("/api/programs")
+#     # get list of Event namedtuples
+#     events = persistence.get_all_events()
+#     programs = []
+#     for event in events:
+#         # get list of Performance namedtuples
+#         performances_nts = persistence.get_event_performances(event.id)
+#         # convert to list of OrderedDicts
+#         performances_dicts = [nt._asdict() for nt in performances_nts]
+#         # print(
+#         #     f"**** event date -------> {event.day_time.strftime('%X %x')}")
+#         date_string = event.day_time.strftime("%x %X")
+#         event_dicts = event._asdict()
+#         # print(f"*** event as dict -------> {event_dicts}")
+#         # print(f"*** event dict day_time -------> {event_dicts['day_time']}")
+#         event_dicts["day_time"] = date_string
+#         programs.append({"event": event_dicts, "performances": performances_dicts})
+#     programs_json = json.dumps(programs)
+#     print("\nprograms_json:\n")
+#     # from pprint import pprint
+#     # pprint(programs_json)
+
+#     print(json.dumps(programs[0], indent=2))
+#     print("\n\n")
+#     return programs_json
+
+
+# @app.route("/api/performances/<event_id>", methods=["POST"])
+# def add_performance(event_id):
+#     if request.method == "POST":
+#         req = json.loads(request.data)["data"]
+#         print(
+#             f"******* req = {req}\n******* Event ID: {event_id}\n"
+#             + f"******* Type of req = {type(req)}"
+#         )
+#         persistence.insert_performance(
+#             event_id, req["composer"], req["imslp_title"], req["performance_notes"]
+#         )
+#     return "Success"
 
 
 @app.route("/api/composers")
@@ -212,3 +267,14 @@ def get_pieces_by_composer(name):
 def to_json(nts):
     dicts = [nt._asdict() for nt in nts]
     return json.dumps(dicts)
+
+
+@app.route("/api/ProgramID", methods=["POST"])
+def getProgramID():
+    if request.method == "POST":
+        req = json.loads(request.data)["data"]
+        # req = request.data
+        print(f"******* req = {req} *******\n Type = {type(req)}")
+        event_id = persistence.get_event_id(parse(req["day_time"]), req["venue_id"])
+        print(f"api: event_id = {event_id}")
+    return json.dumps({"event_id": event_id})

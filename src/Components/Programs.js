@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback } from "react";
+import React, { useState, useEffect, useCallback, useRef } from "react";
 import LoadingBox from "./LoadingBox";
 import MessageBox from "./MessageBox";
 import PerformanceForm from "./PerformanceForm";
@@ -11,29 +11,59 @@ export default function Programs() {
   // const [submitProgBool, setSubmitProgBool] = useState(false);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(false);
+  // const [progScroll, setProgScroll] = useState("");
+  // let eventDetails = useRef([]);
+  // let resDict = useRef([]);
+
+  let program_id = useRef("#id10");
+  let compOpts = useRef([]);
+
+  // const getNewEventID = (eventDets) => {
+  //   return fetch("api/ProgramID", {
+  //     method: "POST",
+  //     body: eventDets,
+  //     // body: JSON.stringify({ eventDets }),
+  //     headers: {
+  //       "Content-type": "application/json",
+  //     },
+  //   });
+  // };
 
   const handleProgramFormSubmit = (data) => {
+    console.log('Begin "handleProgramFormSubmit:"');
+    console.log(`RAW PROGRAM FORM DATA: ${JSON.stringify({ data })}`);
+    // eventDetails.current.push(JSON.stringify({ data }));
+    // console.log(`eventDetails = ${eventDetails}`);
+    // console.log(`eventDetails.current = ${eventDetails.current}`);
     setLoading(true);
-    return fetch("api/programs", {
-      method: "POST",
-      body: JSON.stringify({ data }),
-      headers: {
-        "Content-type": "application/json",
-      },
-    })
-      .then((res) => {
-        return res.json();
+    return (
+      // THIS IS NEEDS TO BE EDITTED
+      // Sending to new_program
+      // receive event_id
+      // call get_programs with event_id?
+      // OR don't, but assign event_id to a useRef
+      fetch("api/new_program", {
+        method: "POST",
+        body: JSON.stringify({ data }),
+        headers: {
+          "Content-type": "application/json",
+        },
       })
-      .then((data) => {
-        console.log(data);
-        setLoading(false);
-        setPrograms([...data]);
-      })
-      .then(setSubmitPerfBool(!submitPerfBool))
-      .catch((err) => {
-        setError(err.message);
-        setLoading(false);
-      });
+        .then((res) => {
+          return res.json();
+        })
+        .then((data) => {
+          console.log(`JSONified "data" return from "api/programs": ${data}`);
+          console.log("handleProgramFormSubmit now setting 'programs'.");
+          setLoading(false);
+          setPrograms([...data]);
+        })
+        .then(setSubmitPerfBool(!submitPerfBool))
+        .catch((err) => {
+          setError(err.message);
+          setLoading(false);
+        })
+    );
 
     // setSubmitProgBool(!submitProgBool);
     // getPrograms();
@@ -55,23 +85,6 @@ export default function Programs() {
     // getPrograms();
   };
 
-  // async function getPrograms() {
-  //   try {
-  //     setLoading(true);
-  //     const res = await fetch("/api/programs");
-  //     const data = await res.json();
-  //     setLoading(false);
-  //     console.log("From 'getPrograms()':");
-  //     console.log(data);
-  //     setPrograms(data);
-  //     // console.log(res);
-  //     console.log(programs[0]);
-  //   } catch (err) {
-  //     setError(err.message);
-  //     setLoading(false);
-  //   }
-  // }
-
   const getPrograms = useCallback(() => {
     setLoading(true);
     return fetch("/api/programs")
@@ -79,7 +92,7 @@ export default function Programs() {
         return res.json();
       })
       .then((data) => {
-        console.log(data);
+        console.log(`Inside getPrograms, before "setPrograms" call: ${data}`);
         setLoading(false);
         setPrograms([...data]);
       })
@@ -90,11 +103,65 @@ export default function Programs() {
   }, []);
 
   useEffect(() => {
-    getPrograms();
+    getPrograms().then(() => {
+      console.log(`program_id.current = ${program_id.current}`);
+      if (program_id.current !== null) {
+        const section = document.getElementById("program_section");
+        const prog = section.querySelector(program_id.current);
+        console.log(`prog = ${prog}`);
+        if (prog !== null) {
+          prog.scrollIntoView({ behavior: "smooth", block: "start" });
+        }
+        program_id.current = null; // Is this necessary?
+      }
+    });
     return () => {
       setPrograms([]);
+      // setProgScroll("");
     };
-  }, [getPrograms, submitPerfBool]);
+  }, [getPrograms, submitPerfBool, program_id]);
+
+  useEffect(() => {
+    async function getComposers() {
+      try {
+        // setLoading(true);
+
+        const res = await fetch("/api/composers");
+        const data = await res.json();
+        // setLoading(false);
+        // console.log(data);
+        const dLen = Object.keys(data).length;
+        // composers = data;
+        console.log(data[0]);
+
+        // mapping composer data to option tags
+        // in two halves, otherwise reactDevTools
+        // warning 'Exceeded maximum callstack length'
+        // via react's shouldFilterFiber method
+        compOpts.current.push(
+          data.slice(1, dLen / 2).map((composer) => (
+            <option key={composer.id} value={composer.name}>
+              {composer.name}
+            </option>
+          ))
+        );
+        compOpts.current.push(
+          data.slice(dLen / 2, dLen).map((composer) => (
+            <option key={composer.id} value={composer.name}>
+              {composer.name}
+            </option>
+          ))
+        );
+        console.log(`compOpts = ${compOpts}`);
+        // console.log(res);
+      } catch (err) {
+        console.log(err);
+        // setError(err.message);
+        // setLoading(false);
+      }
+    }
+    getComposers();
+  }, [compOpts]);
 
   return (
     <div>
@@ -108,15 +175,16 @@ export default function Programs() {
           <section>
             <ProgramForm programFormSubmit={handleProgramFormSubmit} />
           </section>
-          <section>
+          <section id="program_section">
             {programs.map((program) => (
-              <div key={program.event.id}>
+              <div key={program.event.id} id={`id${program.event.id}`}>
                 <h1 className="heading central">
                   {program.event.name} {program.event.day_time}
                 </h1>
                 <PerformanceForm
                   event_id={program.event.id}
                   performanceFormSubmit={handlePerformanceFormSubmit}
+                  compOptions={compOpts.current}
                 />
                 <Performances performances={program.performances} />
               </div>

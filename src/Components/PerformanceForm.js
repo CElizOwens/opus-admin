@@ -4,31 +4,35 @@ import { useForm } from "react-hook-form";
 // import MessageBox from "./MessageBox";
 import { Opener, Closer } from "./Toggles";
 
-export default function PerformanceForm({ event_id, performanceFormSubmit }) {
+export default function PerformanceForm({
+  event_id,
+  performanceFormSubmit,
+  compOptions,
+}) {
   const { register, handleSubmit, reset } = useForm();
   const [needForm, setNeedForm] = useState(false);
-  const [composers, setComposers] = useState([]);
-  // const composers = [];
+  // const [composers, setComposers] = useState([]);
+  // const composers = composers;
   const [compRep, setCompRep] = useState([]);
   // const [loading, setLoading] = useState(false);
   // const [error, setError] = useState(false);
 
-  async function getComposers() {
-    try {
-      // setLoading(true);
+  // async function getComposers() {
+  //   try {
+  //     // setLoading(true);
 
-      const res = await fetch("/api/composers");
-      const data = await res.json();
-      // setLoading(false);
-      console.log(data);
-      setComposers(data);
-      // composers = data;
-      // console.log(res);
-    } catch (err) {
-      // setError(err.message);
-      // setLoading(false);
-    }
-  }
+  //     const res = await fetch("/api/composers");
+  //     const data = await res.json();
+  //     // setLoading(false);
+  //     console.log(data);
+  //     setComposers(data);
+  //     // composers = data;
+  //     // console.log(res);
+  //   } catch (err) {
+  //     // setError(err.message);
+  //     // setLoading(false);
+  //   }
+  // }
 
   async function getCompRep(name) {
     try {
@@ -39,12 +43,12 @@ export default function PerformanceForm({ event_id, performanceFormSubmit }) {
     } catch (err) {}
   }
 
-  useEffect(() => {
-    getComposers();
-    return () => {
-      setComposers([]);
-    };
-  }, []);
+  // useEffect(() => {
+  //   getComposers();
+  //   return () => {
+  //     setComposers([]);
+  //   };
+  // }, []);
 
   const onSubmit = (data) => {
     // console.log(data);
@@ -63,6 +67,8 @@ export default function PerformanceForm({ event_id, performanceFormSubmit }) {
   const handleToggle = () => {
     setNeedForm(!needForm);
   };
+
+  useEffect(() => {}, []);
 
   return (
     <div className="card">
@@ -94,13 +100,14 @@ export default function PerformanceForm({ event_id, performanceFormSubmit }) {
                   onChange={handleName}
                   ref={register}
                 >
-                  <option value="">Choose composer...</option>
+                  <option value="">Type or scroll to search...</option>
                   {/* 31606 composers */}
-                  {composers.map((composer) => (
+                  {/* {composers1.current.map((composer) => (
                     <option key={composer.id} value={composer.name}>
                       {composer.name}
                     </option>
-                  ))}
+                  ))} */}
+                  {compOptions}
                 </select>
               </div>
               <div className="form-div hori-control">
