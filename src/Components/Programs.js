@@ -11,11 +11,10 @@ export default function Programs() {
   // const [submitProgBool, setSubmitProgBool] = useState(false);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(false);
-  // const [progScroll, setProgScroll] = useState("");
   // let eventDetails = useRef([]);
   // let resDict = useRef([]);
 
-  let program_id = useRef("#id10");
+  let program_id = useRef(null);
   let compOpts = useRef([]);
 
   // const getNewEventID = (eventDets) => {
@@ -105,11 +104,13 @@ export default function Programs() {
   useEffect(() => {
     getPrograms().then(() => {
       console.log(`program_id.current = ${program_id.current}`);
-      if (program_id.current !== null) {
+      // if (program_id.current !== null) {
+      if (program_id.current) {
         const section = document.getElementById("program_section");
         const prog = section.querySelector(program_id.current);
         console.log(`prog = ${prog}`);
-        if (prog !== null) {
+        // if (prog !== null) {
+        if (prog) {
           prog.scrollIntoView({ behavior: "smooth", block: "start" });
         }
         program_id.current = null; // Is this necessary?
@@ -117,7 +118,6 @@ export default function Programs() {
     });
     return () => {
       setPrograms([]);
-      // setProgScroll("");
     };
   }, [getPrograms, submitPerfBool, program_id]);
 
