@@ -152,7 +152,7 @@ def get_repertoire():
     return to_json(persistence.get_all_performances())
 
 
-@app.route("/api/programs/", methods=["GET"])
+@app.route("/api/programs", methods=["GET"])
 def get_programs():
     """
     event_id can either be 0 and programs are returned with no event in focus
@@ -196,7 +196,7 @@ def add_program():
     venue_id = req["venue_id"]
     event_id = persistence.insert_event(day_time, venue_id)
     print(f"******* event_id = {event_id}, Type = {type(event_id)}")
-    return event_id  # not sure what type this is
+    return {"event_id": event_id}  # not sure what type this is
 
 
 # @app.route("/api/programs", methods=["GET", "POST"])

@@ -49,13 +49,17 @@ export default function Programs() {
         },
       })
         .then((res) => {
+          console.log(`non-JSONified result: ${res}`);
           return res.json();
         })
         .then((data) => {
-          console.log(`JSONified "data" return from "api/programs": ${data}`);
-          console.log("handleProgramFormSubmit now setting 'programs'.");
+          console.log(
+            `JSONified "data" return from "api/new_program": ${data.event_id}`
+          );
+          program_id.current = `#id${data.event_id}`;
+          // console.log("handleProgramFormSubmit now setting 'programs'.");
           setLoading(false);
-          setPrograms([...data]);
+          // setPrograms([...data]);
         })
         .then(setSubmitPerfBool(!submitPerfBool))
         .catch((err) => {
