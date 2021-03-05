@@ -49,13 +49,12 @@ export default function Programs() {
         },
       })
         .then((res) => {
-          console.log(`non-JSONified result: ${res}`);
           return res.json();
         })
         .then((data) => {
-          console.log(
-            `JSONified "data" return from "api/new_program": ${data.event_id}`
-          );
+          // console.log(
+          //   `JSONified "data" return from "api/new_program": ${data.event_id}`
+          // );
           program_id.current = `#id${data.event_id}`;
           // console.log("handleProgramFormSubmit now setting 'programs'.");
           setLoading(false);
@@ -72,19 +71,26 @@ export default function Programs() {
     // getPrograms();
   };
 
-  const handlePerformanceFormSubmit = (data, id) => {
-    // console.log(id);
-    // console.log("From 'handlePerformanceFormSubmit':");
-    // console.log(data);
-    fetch(`api/performances/${id}`, {
+  const handlePerformanceFormSubmit = (data, event_id) => {
+    console.log(event_id);
+    console.log("From 'handlePerformanceFormSubmit':");
+    console.log(data);
+    return fetch(`api/performances/${event_id}`, {
       method: "POST",
       body: JSON.stringify({ data }),
       headers: {
         "Content-type": "application/json",
       },
-    });
+    })
+      .then(() => {
+        program_id.current = `#id${event_id}`;
+        setSubmitPerfBool(!submitPerfBool);
+      })
+      .catch((err) => {
+        setError(err.message);
+        // setLoading(false);
+      });
     // console.log("We've gotten to 'getPrograms()'.");
-    setSubmitPerfBool(!submitPerfBool);
     // getPrograms();
   };
 

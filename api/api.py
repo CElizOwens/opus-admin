@@ -234,18 +234,18 @@ def add_program():
 #     return programs_json
 
 
-# @app.route("/api/performances/<event_id>", methods=["POST"])
-# def add_performance(event_id):
-#     if request.method == "POST":
-#         req = json.loads(request.data)["data"]
-#         print(
-#             f"******* req = {req}\n******* Event ID: {event_id}\n"
-#             + f"******* Type of req = {type(req)}"
-#         )
-#         persistence.insert_performance(
-#             event_id, req["composer"], req["imslp_title"], req["performance_notes"]
-#         )
-#     return "Success"
+@app.route("/api/performances/<event_id>", methods=["POST"])
+def add_performance(event_id):
+    if request.method == "POST":
+        req = json.loads(request.data)["data"]
+        print(
+            f"******* req = {req}\n******* Event ID: {event_id}\n"
+            + f"******* Type of req = {type(req)}"
+        )
+        persistence.insert_performance(
+            event_id, req["composer"], req["imslp_title"], req["performance_notes"]
+        )
+    return "Success"
 
 
 @app.route("/api/composers")
