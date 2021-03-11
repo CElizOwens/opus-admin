@@ -196,42 +196,7 @@ def add_program():
     venue_id = req["venue_id"]
     event_id = persistence.insert_event(day_time, venue_id)
     print(f"******* event_id = {event_id}, Type = {type(event_id)}")
-    return {"event_id": event_id}  # not sure what type this is
-
-
-# @app.route("/api/programs", methods=["GET", "POST"])
-# def get_programs():
-#     if request.method == "POST":
-#         req = json.loads(request.data)["data"]
-#         print(f"******* req = {req} *******\n Type = {type(req)}")
-#         day_time = parse(req["day_time"])
-#         venue_id = req["venue_id"]
-#         persistence.insert_event(day_time, venue_id)
-#         redirect("/api/programs")
-#     # get list of Event namedtuples
-#     events = persistence.get_all_events()
-#     programs = []
-#     for event in events:
-#         # get list of Performance namedtuples
-#         performances_nts = persistence.get_event_performances(event.id)
-#         # convert to list of OrderedDicts
-#         performances_dicts = [nt._asdict() for nt in performances_nts]
-#         # print(
-#         #     f"**** event date -------> {event.day_time.strftime('%X %x')}")
-#         date_string = event.day_time.strftime("%x %X")
-#         event_dicts = event._asdict()
-#         # print(f"*** event as dict -------> {event_dicts}")
-#         # print(f"*** event dict day_time -------> {event_dicts['day_time']}")
-#         event_dicts["day_time"] = date_string
-#         programs.append({"event": event_dicts, "performances": performances_dicts})
-#     programs_json = json.dumps(programs)
-#     print("\nprograms_json:\n")
-#     # from pprint import pprint
-#     # pprint(programs_json)
-
-#     print(json.dumps(programs[0], indent=2))
-#     print("\n\n")
-#     return programs_json
+    return {"event_id": event_id}
 
 
 @app.route("/api/performances/<event_id>", methods=["POST"])
