@@ -8,67 +8,38 @@ import ProgramForm from "./ProgramForm";
 export default function Programs() {
   const [programs, setPrograms] = useState([]);
   const [submitPerfBool, setSubmitPerfBool] = useState(false);
-  // const [submitProgBool, setSubmitProgBool] = useState(false);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(false);
-  // let eventDetails = useRef([]);
-  // let resDict = useRef([]);
 
   let program_id = useRef(null);
   let compOpts = useRef([]);
 
-  // const getNewEventID = (eventDets) => {
-  //   return fetch("api/ProgramID", {
-  //     method: "POST",
-  //     body: eventDets,
-  //     // body: JSON.stringify({ eventDets }),
-  //     headers: {
-  //       "Content-type": "application/json",
-  //     },
-  //   });
-  // };
-
   const handleProgramFormSubmit = (data) => {
     console.log('Begin "handleProgramFormSubmit:"');
     console.log(`RAW PROGRAM FORM DATA: ${JSON.stringify({ data })}`);
-    // eventDetails.current.push(JSON.stringify({ data }));
-    // console.log(`eventDetails = ${eventDetails}`);
-    // console.log(`eventDetails.current = ${eventDetails.current}`);
     setLoading(true);
-    return (
-      // THIS IS NEEDS TO BE EDITTED
-      // Sending to new_program
-      // receive event_id
-      // call get_programs with event_id?
-      // OR don't, but assign event_id to a useRef
-      fetch("api/new_program", {
-        method: "POST",
-        body: JSON.stringify({ data }),
-        headers: {
-          "Content-type": "application/json",
-        },
+    return fetch("api/new_program", {
+      method: "POST",
+      body: JSON.stringify({ data }),
+      headers: {
+        "Content-type": "application/json",
+      },
+    })
+      .then((res) => {
+        return res.json();
       })
-        .then((res) => {
-          return res.json();
-        })
-        .then((data) => {
-          // console.log(
-          //   `JSONified "data" return from "api/new_program": ${data.event_id}`
-          // );
-          program_id.current = `#id${data.event_id}`;
-          // console.log("handleProgramFormSubmit now setting 'programs'.");
-          setLoading(false);
-          // setPrograms([...data]);
-        })
-        .then(setSubmitPerfBool(!submitPerfBool))
-        .catch((err) => {
-          setError(err.message);
-          setLoading(false);
-        })
-    );
-
-    // setSubmitProgBool(!submitProgBool);
-    // getPrograms();
+      .then((data) => {
+        // console.log(
+        //   `JSONified "data" return from "api/new_program": ${data.event_id}`
+        // );
+        program_id.current = `#id${data.event_id}`;
+        setLoading(false);
+      })
+      .then(setSubmitPerfBool(!submitPerfBool))
+      .catch((err) => {
+        setError(err.message);
+        setLoading(false);
+      });
   };
 
   const handlePerformanceFormSubmit = (data, event_id) => {
@@ -88,10 +59,7 @@ export default function Programs() {
       })
       .catch((err) => {
         setError(err.message);
-        // setLoading(false);
       });
-    // console.log("We've gotten to 'getPrograms()'.");
-    // getPrograms();
   };
 
   const getPrograms = useCallback(() => {
@@ -123,7 +91,7 @@ export default function Programs() {
         if (prog) {
           prog.scrollIntoView({ behavior: "smooth", block: "start" });
         }
-        program_id.current = null; // Is this necessary?
+        program_id.current = null; // Maybe not necessary?
       }
     });
     return () => {
@@ -141,7 +109,6 @@ export default function Programs() {
         // setLoading(false);
         // console.log(data);
         const dLen = Object.keys(data).length;
-        // composers = data;
         console.log(data[0]);
 
         // mapping composer data to option tags
@@ -163,7 +130,6 @@ export default function Programs() {
           ))
         );
         console.log(`compOpts = ${compOpts}`);
-        // console.log(res);
       } catch (err) {
         console.log(err);
         // setError(err.message);

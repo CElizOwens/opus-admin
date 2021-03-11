@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 // import LoadingBox from "./LoadingBox";
 // import MessageBox from "./MessageBox";
@@ -11,28 +11,9 @@ export default function PerformanceForm({
 }) {
   const { register, handleSubmit, reset } = useForm();
   const [needForm, setNeedForm] = useState(false);
-  // const [composers, setComposers] = useState([]);
-  // const composers = composers;
   const [compRep, setCompRep] = useState([]);
   // const [loading, setLoading] = useState(false);
   // const [error, setError] = useState(false);
-
-  // async function getComposers() {
-  //   try {
-  //     // setLoading(true);
-
-  //     const res = await fetch("/api/composers");
-  //     const data = await res.json();
-  //     // setLoading(false);
-  //     console.log(data);
-  //     setComposers(data);
-  //     // composers = data;
-  //     // console.log(res);
-  //   } catch (err) {
-  //     // setError(err.message);
-  //     // setLoading(false);
-  //   }
-  // }
 
   async function getCompRep(name) {
     try {
@@ -42,13 +23,6 @@ export default function PerformanceForm({
       setCompRep(data);
     } catch (err) {}
   }
-
-  // useEffect(() => {
-  //   getComposers();
-  //   return () => {
-  //     setComposers([]);
-  //   };
-  // }, []);
 
   const onSubmit = (data) => {
     // console.log(data);
@@ -68,8 +42,6 @@ export default function PerformanceForm({
     setNeedForm(!needForm);
   };
 
-  useEffect(() => {}, []);
-
   return (
     <div className="card">
       {/* {loading ? (
@@ -84,15 +56,7 @@ export default function PerformanceForm({
           <div>
             <form onSubmit={handleSubmit(onSubmit)}>
               <div className="form-div hori-control">
-                {/* <label htmlFor="composer">Composer</label>
-                <input
-                  type="text"
-                  name="composer"
-                  id="composer"
-                  ref={register}
-                /> */}
                 <label htmlFor="composer">Composer</label>
-                {/* <input type="text" name="composer" ref={register} /> */}
                 <select
                   defaultValue={""}
                   name="composer"
@@ -102,22 +66,11 @@ export default function PerformanceForm({
                 >
                   <option value="">Type or scroll to search...</option>
                   {/* 31606 composers */}
-                  {/* {composers1.current.map((composer) => (
-                    <option key={composer.id} value={composer.name}>
-                      {composer.name}
-                    </option>
-                  ))} */}
                   {compOptions}
                 </select>
               </div>
               <div className="form-div hori-control">
                 <label htmlFor="imslp_title">IMSLP Title</label>
-                {/* <input
-                  type="text"
-                  name="imslp_title"
-                  id="imslp_title"
-                  ref={register}
-                /> */}
                 <select
                   defaultValue={""}
                   name="imslp_title"
@@ -142,7 +95,6 @@ export default function PerformanceForm({
                 />
               </div>
               <div>
-                {/* <div className="form-div hori-control"> */}
                 <button className="submit-btn" type="submit">
                   Submit
                 </button>

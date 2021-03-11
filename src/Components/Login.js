@@ -6,9 +6,6 @@ export default function Login({ loggingStatus }) {
   const { register, handleSubmit, errors, reset } = useForm();
   const [logged] = useAuth();
 
-  // const [username, setUsername] = useState("");
-  // const [password, setPassword] = useState("");
-
   const onSubmit = (data) => {
     console.log("You pressed login");
     let opts = {
@@ -32,14 +29,6 @@ export default function Login({ loggingStatus }) {
     reset();
   };
 
-  // const handleUsernameChange = (e) => {
-  //   setUsername(e.target.value);
-  // };
-
-  // const handlePasswordChange = (e) => {
-  //   setPassword(e.target.value);
-  // };
-
   return (
     <>
       {!logged ? (
@@ -54,8 +43,7 @@ export default function Login({ loggingStatus }) {
                 <input
                   type="text"
                   name="email"
-                  // onChange={handleUsernameChange}
-                  // value={username}
+                  autoComplete="username"
                   ref={register({
                     required: "*Email is required.",
                     pattern: {
@@ -74,8 +62,7 @@ export default function Login({ loggingStatus }) {
                 <input
                   type="password"
                   name="password"
-                  // onChange={handlePasswordChange}
-                  // value={password}
+                  autoComplete="current-password"
                   ref={register({
                     required: "*Password is required.",
                     minLength: {
@@ -89,7 +76,6 @@ export default function Login({ loggingStatus }) {
                 )}
               </div>
               <div>
-                {/* <div className="form-control"> */}
                 <button className="submit-btn" type="submit">
                   Login
                 </button>

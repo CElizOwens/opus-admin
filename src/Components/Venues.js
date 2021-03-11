@@ -18,7 +18,6 @@ export default function Venues() {
       },
     });
     setSubmitVenBool(!submitVenBool);
-    // getVenues();
   };
 
   const getVenues = useCallback(() => {
@@ -37,22 +36,6 @@ export default function Venues() {
         setLoading(false);
       });
   }, []);
-
-  // async function getVenues() {
-  //   try {
-  //     setLoading(true);
-
-  //     const res = await fetch("/api/venues");
-  //     const data = await res.json();
-  //     setLoading(false);
-  //     // console.log(data);
-  //     setVenues(data);
-  //     // console.log(res);
-  //   } catch (err) {
-  //     setError(err.message);
-  //     setLoading(false);
-  //   }
-  // }
 
   useEffect(() => {
     getVenues();

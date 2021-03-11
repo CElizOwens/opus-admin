@@ -17,7 +17,6 @@ export default function Repertoire() {
       setLoading(false);
       // console.log(data);
       setRep(data);
-      // console.log(res);
     } catch (err) {
       setError(err.message);
       setLoading(false);

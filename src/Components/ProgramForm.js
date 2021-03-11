@@ -58,7 +58,6 @@ export default function ProgramForm({ programFormSubmit }) {
               </div>
               <div className="form-div hori-control">
                 <label htmlFor="venue_id">Venue</label>
-                {/* <input type="text" name="venue_id" ref={register} /> */}
                 <select
                   defaultValue={""}
                   name="venue_id"
@@ -74,7 +73,6 @@ export default function ProgramForm({ programFormSubmit }) {
                 </select>
               </div>
               <div>
-                {/* <div className="form-div hori-control"> */}
                 <button className="submit-btn" type="submit">
                   Submit
                 </button>

@@ -35,7 +35,6 @@ export default function Form({ venueFormSubmit }) {
                 <input type="text" name="link" ref={register} />
               </div>
               <div>
-                {/* <div className="form-div hori-control"> */}
                 <button className="submit-btn" type="submit">
                   Submit
                 </button>
