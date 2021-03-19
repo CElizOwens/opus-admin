@@ -10,9 +10,9 @@ export default function Login({ loggingStatus }) {
     console.log("You pressed login");
     let opts = {
       username: data.email,
-      password: data.password,
+      hashed_password: data.password,
     };
-    console.log(opts);
+    // console.log(opts);
     fetch("/api/login", {
       method: "post",
       body: JSON.stringify(opts),
@@ -21,7 +21,7 @@ export default function Login({ loggingStatus }) {
       .then((token) => {
         if (token.access_token) {
           login(token);
-          console.log(token);
+          // console.log(token);
         } else {
           console.log("Please type in correct username/password.");
         }
@@ -87,7 +87,7 @@ export default function Login({ loggingStatus }) {
         <div>
           <h2 className="row central title">You are logged in!</h2>
           <section className="row central">
-            <button onClick={() => logout()}>Logout</button>
+            <button onClick={() => logout()}>Click to Logout</button>
           </section>
         </div>
       )}

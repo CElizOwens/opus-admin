@@ -2,6 +2,7 @@ import os
 from flask_sqlalchemy import SQLAlchemy
 from flask_praetorian import Praetorian
 from flask_cors import CORS
+from flask_mail import Mail
 
 PASS = os.environ.get("MYSQL_PASS")
 SECRET_KEY = os.environ.get("SECRET_KEY") or "secret-key-goes-here"
@@ -11,3 +12,4 @@ test_databaseURI = f"mysql+mysqldb://root:{PASS}@localhost/test_opus"
 db = SQLAlchemy()
 guard = Praetorian()
 cors = CORS()
+mail = Mail()

@@ -4,6 +4,7 @@ from api.config import db, guard
 from api.persistence import persistence
 from flask import abort, redirect, request, url_for  # , g
 import flask_praetorian
+import os
 
 # from flask_httpauth import HTTPBasicAuth
 from api.userModel import User
@@ -38,7 +39,7 @@ def login():
     """
     req = request.get_json(force=True)
     username = req.get("username", None)
-    password = req.get("password", None)
+    password = req.get("hashed_password", None)
     user = guard.authenticate(username, password)
     ret = {"access_token": guard.encode_jwt_token(user)}
     return ret, 200
@@ -93,6 +94,57 @@ def protected():
 #             return False
 #     g.user = user
 #     return True
+
+
+@app.route("/api/register", methods=["POST"])
+def register():
+    """
+    Registers a new user by parsing a POST request containing new user info and
+    dispatching an email with a registration token
+
+    .. example::
+        $ curl http://localhost:5000/api/register -X POST \
+            -d "{
+                "username":"owens.christina@gmail.com", \
+                "password":"gooberville"
+            }"
+    """
+    req = request.get_json(force=True)
+    username = req.get("username", None)
+    email = req.get("username", None)
+    password = req.get("password", None)
+    new_user = User(
+        username=username,
+        hashed_password=guard.hash_password(password),
+        roles="operator",
+    )
+    db.session.add(new_user)
+    db.session.commit()
+    print(
+        f"\n ***** user = {app.config['MAIL_USERNAME']} | app_pass = {app.config['MAIL_PASSWORD']}\n*****"
+    )
+    guard.send_registration_email(email, user=new_user)
+    ret = {
+        "message": f"succesfully sent registration email to user {new_user.username}"
+    }
+    return ret, 201
+
+
+@app.route("/api/finalize")
+def finalize():
+    """
+    Finalizes a user registration with the token that they were issued in their
+    registration email
+
+    .. example::
+        $ curl http://localhost:5000/api/finalize -X GET \
+            -H "Authorization: Bearer <your_token>"
+    """
+    registration_token = guard.read_token_from_header()
+    user = guard.get_user_from_registration_token(registration_token)
+    # perform 'activation' of user here...like setting 'active' or something
+    ret = {"access_token": guard.encode_jwt_token(user)}
+    return ret, 200
 
 
 @app.route("/api/users", methods=["POST"])
@@ -154,11 +206,6 @@ def get_repertoire():
 
 @app.route("/api/programs", methods=["GET"])
 def get_programs():
-    """
-    event_id can either be 0 and programs are returned with no event in focus
-    OR programs will be returned with the given event_id in focus
-    """
-    # print(f"******* event_id passed to get_programs() = {event_id} *******")
     # get list of Event namedtuples
     events = persistence.get_all_events()
     programs = []

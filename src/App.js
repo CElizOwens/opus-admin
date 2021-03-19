@@ -3,7 +3,7 @@ import { BrowserRouter, Switch, Route, Link } from "react-router-dom";
 import Home from "./Components/Home";
 import Login from "./Components/Login";
 // import { PrivateRoute } from "./Components/PrivateRoute";
-// import Secret from "./Components/Secret";
+import Secret from "./Components/Secret";
 import Programs from "./Components/Programs";
 import Repertoire from "./Components/Repertoire";
 // import Time from "./Components/Time";
@@ -26,8 +26,8 @@ function App() {
               <Link to="/programs">Programs</Link> |{" "}
               <Link to="/repertoire">Repertoire</Link> |{" "}
               <Link to="/venues">Venues</Link> |{" "}
-              <Link to="/login">{!logged ? <>Login</> : <>Logout</>}</Link>{" "}
-              {/* | <Link to="/secret">Secret</Link> */}
+              <Link to="/login">{!logged ? <>Login</> : <>Logout</>}</Link> |{" "}
+              <Link to="/secret">Secret</Link>
               {/*{" "}
               | <Link to="/time">Time Zones</Link>*/}
             </div>
@@ -48,7 +48,10 @@ function App() {
                 <Route path="/repertoire">
                   <Repertoire />
                 </Route>
-                {/* <PrivateRoute path="/secret" component={Secret} /> */}
+                <Route path="/secret">
+                  {/* <PrivateRoute path="/secret" component={Secret} /> */}
+                  <Secret />
+                </Route>
                 <Route path="/venues">
                   <Venues />
                 </Route>

@@ -12,7 +12,7 @@ class User(db.Model):
     __tablename__ = "users"
     id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String(32), unique=True)
-    password = db.Column(db.String(256))
+    hashed_password = db.Column(db.String(256))
     roles = db.Column(db.String(128))
     is_active = db.Column(db.Boolean, default=True, server_default="1")
     __table_args__ = {"keep_existing": True}
@@ -23,6 +23,10 @@ class User(db.Model):
             return self.roles.split(",")
         except Exception:
             return []
+
+    @property
+    def password(self):
+        return self.hashed_password
 
     @classmethod
     def lookup(cls, username):
