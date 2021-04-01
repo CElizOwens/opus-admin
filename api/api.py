@@ -130,9 +130,11 @@ def register():
         f"\n ***** user = {app.config['MAIL_USERNAME']} | app_pass = {app.config['MAIL_PASSWORD']}\n ***** email = {email} | password = {password}\n"
     )
 
-    guard.send_registration_email(email, user=new_user)
+    guard.send_registration_email(
+        email, user=new_user, confirmation_uri="http://10.0.0.40:3000/finalize"
+    )
     ret = {
-        "message": f"succesfully sent registration email to user {new_user.username}"
+        "message": f"successfully sent registration email to user {new_user.username}"
     }
     return ret, 201
 
