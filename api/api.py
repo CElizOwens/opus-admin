@@ -35,11 +35,11 @@ def login():
     user credentials and issuing a JWT token.
     .. example::
         $ curl http://localhost:5000/api/login -X POST \
-            -d '{"username":"christina", "password":"orzoschnoodle"}'
+            -d '{"username":"owens.christina@gmail.com", "password":"gooberville"}'
     """
     req = request.get_json(force=True)
-    username = req.get("username", None)
-    password = req.get("hashed_password", None)
+    username = req.get("username")
+    password = req.get("password")
     user = guard.authenticate(username, password)
     ret = {"access_token": guard.encode_jwt_token(user)}
     return ret, 200
@@ -104,25 +104,32 @@ def register():
 
     .. example::
         $ curl http://localhost:5000/api/register -X POST \
-            -d "{
+            -d '{
                 "username":"owens.christina@gmail.com", \
-                "password":"gooberville"
-            }"
+                "password":"orzoschnoodle", \
+                "roles":"admin"
+            }'
     """
     req = request.get_json(force=True)
-    username = req.get("username", None)
-    email = req.get("username", None)
-    password = req.get("password", None)
+    username = req.get("username")
+    email = req.get("username")
+    password = req.get("password")
+    if password is None:
+        password = "temp" + str(time.time())
+    roles = req.get("roles")
     new_user = User(
         username=username,
         hashed_password=guard.hash_password(password),
-        roles="operator",
+        roles=roles,
     )
     db.session.add(new_user)
     db.session.commit()
+
+    # Remove this print function before changing to production
     print(
-        f"\n ***** user = {app.config['MAIL_USERNAME']} | app_pass = {app.config['MAIL_PASSWORD']}\n*****"
+        f"\n ***** user = {app.config['MAIL_USERNAME']} | app_pass = {app.config['MAIL_PASSWORD']}\n ***** email = {email} | password = {password}\n"
     )
+
     guard.send_registration_email(email, user=new_user)
     ret = {
         "message": f"succesfully sent registration email to user {new_user.username}"
@@ -143,6 +150,7 @@ def finalize():
     registration_token = guard.read_token_from_header()
     user = guard.get_user_from_registration_token(registration_token)
     # perform 'activation' of user here...like setting 'active' or something
+
     ret = {"access_token": guard.encode_jwt_token(user)}
     return ret, 200
 

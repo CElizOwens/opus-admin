@@ -2,7 +2,7 @@ import React from "react";
 import { useForm } from "react-hook-form";
 import { login, useAuth, logout } from "../auth";
 
-export default function Login({ loggingStatus }) {
+export default function Login() {
   const { register, handleSubmit, errors, reset } = useForm();
   const [logged] = useAuth();
 
@@ -10,7 +10,7 @@ export default function Login({ loggingStatus }) {
     console.log("You pressed login");
     let opts = {
       username: data.email,
-      hashed_password: data.password,
+      password: data.password,
     };
     // console.log(opts);
     fetch("/api/login", {
@@ -33,7 +33,7 @@ export default function Login({ loggingStatus }) {
     <>
       {!logged ? (
         <div>
-          <h1 className="row central title">Admin Login</h1>
+          <h1 className="row central title">Login</h1>
 
           <section className="row central">
             <form className="login" onSubmit={handleSubmit(onSubmit)}>

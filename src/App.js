@@ -2,13 +2,15 @@ import React from "react";
 import { BrowserRouter, Switch, Route, Link } from "react-router-dom";
 import Home from "./Components/Home";
 import Login from "./Components/Login";
-// import { PrivateRoute } from "./Components/PrivateRoute";
+import { PrivateRoute } from "./Components/PrivateRoute";
 import Secret from "./Components/Secret";
 import Programs from "./Components/Programs";
 import Repertoire from "./Components/Repertoire";
 // import Time from "./Components/Time";
 import Venues from "./Components/Venues";
 import { useAuth } from "./auth";
+import Finalize from "./Components/Finalize";
+import Invite from "./Components/Invite";
 
 function App() {
   const [logged] = useAuth();
@@ -55,6 +57,11 @@ function App() {
                 <Route path="/venues">
                   <Venues />
                 </Route>
+                <PrivateRoute path="/invite" component={Invite} />
+                <Route path="/finalize">
+                  <Finalize />
+                </Route>
+
                 {/* <Route path="/time">
                   <Time />
                 </Route> */}
