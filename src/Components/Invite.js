@@ -23,8 +23,8 @@ function Invite() {
       .then((res) => {
         console.log("Inside promise:");
         console.log(`'res.ok' = ${res.ok}`);
-        if (res.status === 201) {
-          console.log("'res.status' is 201.");
+        if (res.ok) {
+          // console.log("'res.status' is 201.");
           sent.current = opts.username;
           console.log(`sent.current = ${sent.current}`);
         }
