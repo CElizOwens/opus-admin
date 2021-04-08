@@ -78,6 +78,7 @@ def protected():
 
 
 @app.route("/api/register", methods=["POST"])
+@flask_praetorian.roles_accepted("admin")
 def register():
     """
     Registers a new user by parsing a POST request containing new user info and
@@ -121,6 +122,7 @@ def register():
 
 
 @app.route("/api/finalize")
+@flask_praetorian.auth_required
 def finalize():
     """
     Finalizes a user registration with the token that they were issued in their
@@ -136,6 +138,11 @@ def finalize():
 
     ret = {"access_token": guard.encode_jwt_token(user)}
     return ret, 200
+
+
+@app.route("/api/update_password", methods=["POST"])
+def update_password():
+    return "success"
 
 
 @app.route("/api/users", methods=["POST"])
@@ -163,13 +170,6 @@ def get_user(id):
     if not user:
         abort(400)
     return {"username": user.username}
-
-
-# @app.route("/api/token")
-# @auth.login_required
-# def get_auth_token():
-#     token = g.user.generate_auth_token(600)
-#     return {"token": token.decode("ascii"), "duration": 600}
 
 
 @app.route("/api/time")
@@ -224,6 +224,7 @@ def get_programs():
 
 
 @app.route("/api/new_program", methods=["POST"])
+@flask_praetorian.auth_required
 def add_program():
     """
     Inserts new program, returns its newly assigned event_id
@@ -238,6 +239,7 @@ def add_program():
 
 
 @app.route("/api/performances/<event_id>", methods=["POST"])
+@flask_praetorian.auth_required
 def add_performance(event_id):
     if request.method == "POST":
         req = json.loads(request.data)["data"]
@@ -272,12 +274,12 @@ def to_json(nts):
     return json.dumps(dicts)
 
 
-@app.route("/api/ProgramID", methods=["POST"])
-def getProgramID():
-    if request.method == "POST":
-        req = json.loads(request.data)["data"]
-        # req = request.data
-        print(f"******* req = {req} *******\n Type = {type(req)}")
-        event_id = persistence.get_event_id(parse(req["day_time"]), req["venue_id"])
-        print(f"api: event_id = {event_id}")
-    return json.dumps({"event_id": event_id})
+# @app.route("/api/ProgramID", methods=["POST"])
+# def getProgramID():
+#     if request.method == "POST":
+#         req = json.loads(request.data)["data"]
+#         # req = request.data
+#         print(f"******* req = {req} *******\n Type = {type(req)}")
+#         event_id = persistence.get_event_id(parse(req["day_time"]), req["venue_id"])
+#         print(f"api: event_id = {event_id}")
+#     return json.dumps({"event_id": event_id})
