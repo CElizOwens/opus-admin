@@ -1,2 +1,3 @@
 FLASK_APP=run.py
 FLASK_ENV=development
+SERVER_NAME='http://192.168.1.155:5000/'

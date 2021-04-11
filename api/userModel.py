@@ -1,12 +1,5 @@
 from api.config import db  # , SECRET_KEY
 
-# from passlib.apps import custom_app_context as pwd_context
-# from itsdangerous import (
-#     TimedJSONWebSignatureSerializer as Serializer,
-#     BadSignature,
-#     SignatureExpired,
-# )
-
 
 class User(db.Model):
     __tablename__ = "users"
@@ -14,7 +7,7 @@ class User(db.Model):
     username = db.Column(db.String(32), unique=True)
     hashed_password = db.Column(db.String(256))
     roles = db.Column(db.String(128))
-    is_active = db.Column(db.Boolean, default=True, server_default="1")
+    is_active = db.Column(db.Boolean, default=False, server_default="0")
     __table_args__ = {"keep_existing": True}
 
     @property

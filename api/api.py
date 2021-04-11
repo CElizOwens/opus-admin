@@ -42,6 +42,7 @@ def login():
     password = req.get("password")
     user = guard.authenticate(username, password)
     ret = {"access_token": guard.encode_jwt_token(user)}
+    print(ret)
     return ret, 200
 
 
@@ -78,7 +79,8 @@ def protected():
 
 
 @app.route("/api/register", methods=["POST"])
-@flask_praetorian.roles_accepted("admin")
+@flask_praetorian.roles_required("admin")
+# @flask_praetorian.auth_required
 def register():
     """
     Registers a new user by parsing a POST request containing new user info and
@@ -113,7 +115,7 @@ def register():
     )
 
     guard.send_registration_email(
-        email, user=new_user, confirmation_uri="http://10.0.0.40:3000/finalize"
+        email, user=new_user, confirmation_uri="http://192.168.1.155:3000/finalize"
     )
     ret = {
         "message": f"Successfully sent registration email to user {new_user.username}."
@@ -214,12 +216,12 @@ def get_programs():
         event_dicts["day_time"] = date_string
         programs.append({"event": event_dicts, "performances": performances_dicts})
     programs_json = json.dumps(programs)
-    print("\nprograms_json:\n")
-    # from pprint import pprint
-    # pprint(programs_json)
+    # print("\nprograms_json:\n")
+    ## from pprint import pprint
+    ## pprint(programs_json)
 
-    print(json.dumps(programs, indent=2))
-    print("\n\n")
+    # print(json.dumps(programs, indent=2))
+    # print("\n\n")
     return programs_json
 
 

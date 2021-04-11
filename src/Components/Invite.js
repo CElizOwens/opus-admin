@@ -1,6 +1,7 @@
 import React, { useState, useRef } from "react";
 import { useForm } from "react-hook-form";
 import LoadingBox from "./LoadingBox";
+import { useLocation } from "react-router-dom";
 
 function Invite() {
   const { register, handleSubmit, errors, reset } = useForm();
@@ -8,6 +9,8 @@ function Invite() {
   // const [user, setUser] = useState("");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(false);
+  let query = new URLSearchParams(useLocation().search);
+  const token = query.get("token");
 
   const onSubmit = (data) => {
     console.log("You pressed 'Send Email'.");
@@ -16,8 +19,13 @@ function Invite() {
       username: data.email,
       roles: data.roles,
     };
+    console.log(token);
     fetch("/api/register", {
       method: "POST",
+      headers: {
+        Authorization: "Bearer " + token,
+        "Content-Type": "application/json",
+      },
       body: JSON.stringify(opts),
     })
       .then((res) => {

@@ -41,6 +41,7 @@ with app.app_context():
                 username="owens.christina@gmail.com",
                 hashed_password=guard.hash_password("gooberville"),
                 roles="admin",
+                is_active=True,
             )
         )
     db.session.commit()
