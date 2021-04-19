@@ -115,7 +115,9 @@ def register():
     )
 
     guard.send_registration_email(
-        email, user=new_user, confirmation_uri="http://192.168.1.155:3000/finalize"
+        email,
+        user=new_user,
+        confirmation_uri="http://" + api.config.SERVER_NAME + ":3000/finalize",
     )
     ret = {
         "message": f"Successfully sent registration email to user {new_user.username}."
@@ -137,6 +139,7 @@ def finalize():
     registration_token = guard.read_token_from_header()
     user = guard.get_user_from_registration_token(registration_token)
     # perform 'activation' of user here...like setting 'active' or something
+    # and update temporary registration password to user-created password
 
     ret = {"access_token": guard.encode_jwt_token(user)}
     return ret, 200
