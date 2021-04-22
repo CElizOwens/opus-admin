@@ -16,6 +16,10 @@ from sqlalchemy import create_engine, text
 engine = create_engine(test_databaseURI, echo=True)
 
 
+def finalize_new_user(userId, new_password):
+    with engine.connect()
+
+
 def get_all_pieces():
     with engine.connect() as con:
         result = con.execute(
