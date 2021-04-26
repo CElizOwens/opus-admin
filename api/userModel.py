@@ -21,6 +21,11 @@ class User(db.Model):
     def password(self):
         return self.hashed_password
 
+    # HOW DO I CREATE MY OWN ATTRIBUTE??
+    # @property
+    # def username(self):
+    #     return self.username
+
     @classmethod
     def lookup(cls, username):
         return cls.query.filter_by(username=username).one_or_none()

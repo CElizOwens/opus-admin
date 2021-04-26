@@ -1,6 +1,6 @@
 # flake8: noqa=E501
 from api import app
-from api.config import db, guard
+from api.config import db, guard, SERVER_NAME
 from api.persistence import persistence
 from flask import abort, redirect, request, url_for  # , g
 import flask_praetorian
@@ -42,7 +42,7 @@ def login():
     password = req.get("password")
     user = guard.authenticate(username, password)
     ret = {"access_token": guard.encode_jwt_token(user)}
-    print(ret)
+    print(f"ret = {ret}")
     return ret, 200
 
 
@@ -117,7 +117,7 @@ def register():
     guard.send_registration_email(
         email,
         user=new_user,
-        confirmation_uri="http://" + api.config.SERVER_NAME + ":3000/finalize",
+        confirmation_uri="http://" + SERVER_NAME + ":3000/finalize",
     )
     ret = {
         "message": f"Successfully sent registration email to user {new_user.username}."
@@ -125,8 +125,32 @@ def register():
     return ret, 201
 
 
+@app.route("/api/post_finalize", methods=["POST"])
+# @flask_praetorian.auth_required
+def update_new_user():
+    """
+    My personal addition:
+    Changes new user's temporary to user's newly created password
+    Changes new user's active status to '1'
+    """
+    req = request.get_json(force=True)
+    new_password = req.get("password")
+    print(f"new_password = {new_password}")
+    username = req.get("username")
+    print(f"username = {username}")
+    user = User.lookup(username)
+    print(f"user = {user}")
+
+    # finalized_token = guard.read_token_from_header()
+    # user = guard.get_user_from_registration_token(registration_token)
+
+    hashed_password = guard.hash_password(new_password)
+    persistence.finalize_new_user(user.identity, hashed_password)
+    return username, 200
+
+
 @app.route("/api/finalize")
-@flask_praetorian.auth_required
+# @flask_praetorian.auth_required
 def finalize():
     """
     Finalizes a user registration with the token that they were issued in their
@@ -140,8 +164,12 @@ def finalize():
     user = guard.get_user_from_registration_token(registration_token)
     # perform 'activation' of user here...like setting 'active' or something
     # and update temporary registration password to user-created password
-
-    ret = {"access_token": guard.encode_jwt_token(user)}
+    print("\n\n -------> Encoding jwt token...")
+    ret = {
+        "access_token": guard.encode_jwt_token(user, bypass_user_check=True),
+        "username": user.username,
+    }
+    print(f" -------> ret = {ret}\n")
     return ret, 200
 
 
@@ -167,6 +195,17 @@ def new_user():
         201,
         {"Location": url_for("get_user", id=user.id, _external=True)},
     )
+
+
+# @app.route("/api/test_user_class/<int:id>")
+# def get_user_obj(id):
+#     user = User.identify(id)
+#     if not user:
+#         abort(400)
+#     print(user)
+#     return {"id": user.identity,
+#             "username": user.
+#     }
 
 
 @app.route("/api/users/<int:id>")

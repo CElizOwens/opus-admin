@@ -17,7 +17,7 @@
   },
   "scripts": {
     "start": "react-scripts start",
-    "start-api": "cd api && venv/bin/flask run --host=192.168.1.155 --no-debugger",
+    "start-api": "cd api && venv/bin/flask run --host=10.0.0.40 --no-debugger",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "test-api": "cd api && flask test",
@@ -41,5 +41,5 @@
       "last 1 safari version"
     ]
   },
-  "proxy": "http://192.168.1.155:5000"
+  "proxy": "http://10.0.0.40:5000"
 }

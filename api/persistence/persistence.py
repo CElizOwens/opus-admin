@@ -16,8 +16,15 @@ from sqlalchemy import create_engine, text
 engine = create_engine(test_databaseURI, echo=True)
 
 
-def finalize_new_user(userId, new_password):
-    with engine.connect()
+def finalize_new_user(userId, new_hashed_password):
+    with engine.connect() as con:
+        con.execute(
+            text(
+                "UPDATE users SET hashed_password = :new_hashed_password, is_active = '1' WHERE id = :userId;"
+            ),
+            new_hashed_password=new_hashed_password,
+            userId=userId,
+        )
 
 
 def get_all_pieces():
