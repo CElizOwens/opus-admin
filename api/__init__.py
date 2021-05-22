@@ -4,6 +4,7 @@ from flask import Flask
 # Initialize flask app
 app = Flask(__name__, static_folder="../public", static_url_path="/")
 
+# MUST import - os; api, config from api - HERE after Flask() instantiation
 import os  # noqa: E402
 from api import api, config  # noqa: E402, F401
 
@@ -22,6 +23,7 @@ app.config["MAIL_USE_SSL"] = True
 app.config["SERVER_NAME"] = config.SERVER_NAME + ":5000"
 
 # Initialize the flask-praetorian, sqlalchemy and cors instances for the app
+# MUST import - db, guard, cors, mail; User - HERE after app configuration
 from api.config import db, guard, cors, mail  # noqa: E402
 from api.userModel import User  # noqa: E402
 
