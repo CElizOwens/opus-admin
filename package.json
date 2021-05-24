@@ -17,7 +17,7 @@
   },
   "scripts": {
     "start": "react-scripts start",
-    "start-api": "cd api && venv/bin/flask run --host=10.0.0.40 --no-debugger",
+    "start-api": "cd backend && venv/bin/flask run --host=10.0.0.40 --no-debugger",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "test-api": "cd api && flask test",

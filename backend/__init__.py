@@ -6,7 +6,7 @@ app = Flask(__name__, static_folder="../public", static_url_path="/")
 
 # MUST import - os; api, config from api - HERE after Flask() instantiation
 import os  # noqa: E402
-from api import api, config  # noqa: E402, F401
+from backend import api, config  # noqa: E402, F401
 
 app.config["SECRET_KEY"] = config.SECRET_KEY
 app.config["SQLALCHEMY_DATABASE_URI"] = config.test_databaseURI
@@ -24,8 +24,8 @@ app.config["SERVER_NAME"] = config.SERVER_NAME + ":5000"
 
 # Initialize the flask-praetorian, sqlalchemy and cors instances for the app
 # MUST import - db, guard, cors, mail; User - HERE after app configuration
-from api.config import db, guard, cors, mail  # noqa: E402
-from api.userModel import User  # noqa: E402
+from backend.config import db, guard, cors, mail  # noqa: E402
+from backend.userModel import User  # noqa: E402
 
 guard.init_app(app, User)
 db.init_app(app)

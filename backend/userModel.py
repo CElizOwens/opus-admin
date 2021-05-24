@@ -1,4 +1,4 @@
-from api.config import db  # , SECRET_KEY
+from backend.config import db  # , SECRET_KEY
 
 
 class User(db.Model):

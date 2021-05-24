@@ -1,13 +1,13 @@
 # flake8: noqa=E501
-from api import app
-from api.config import db, guard, SERVER_NAME
-from api.persistence import persistence
+from backend import app
+from backend.config import db, guard, SERVER_NAME
+from backend.persistence import persistence
 from flask import abort, redirect, request, url_for  # , g
 import flask_praetorian
 import os
 
 # from flask_httpauth import HTTPBasicAuth
-from api.userModel import User
+from backend.userModel import User
 
 from dateutil.parser import parse
 import json

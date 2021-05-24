@@ -1,5 +1,5 @@
 # flake8: noqa=E501
-from api.models.model import (
+from backend.models.model import (
     Composer,
     Composer_rep,
     Piece,
@@ -8,7 +8,7 @@ from api.models.model import (
     Performance,
     Program,
 )  # , Ensemble
-from api.config import databaseURI, test_databaseURI  # noqa: F401
+from backend.config import databaseURI, test_databaseURI  # noqa: F401
 from sqlalchemy import create_engine, text
 
 
