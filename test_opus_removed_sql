@@ -1,0 +1,10 @@
+# These lines used to be in test_opus_backup.sql at line 17.
+# Removed in order to import data in to existing database on Heroku.
+
+--
+-- Current Database: `test_opus`
+--
+
+CREATE DATABASE /*!32312 IF NOT EXISTS*/ `test_opus` /*!40100 DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci */ /*!80016 DEFAULT ENCRYPTION='N' */;
+
+USE `test_opus`;
