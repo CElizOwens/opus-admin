@@ -1,6 +1,6 @@
 # flake8: noqa=E501
 from backend import app
-from backend.config import db, guard, SERVER_NAME
+from backend.config import db, guard, SERVER_NAME, cross_origin
 from backend.persistence import persistence
 from flask import abort, redirect, request, url_for  # , g
 import flask_praetorian
@@ -18,6 +18,7 @@ import time
 
 
 @app.errorhandler(404)
+@cross_origin()
 def not_found(e):
     return app.send_static_file("index.html")
 

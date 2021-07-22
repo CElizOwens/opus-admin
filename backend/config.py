@@ -1,7 +1,7 @@
 import os
 from flask_sqlalchemy import SQLAlchemy
 from flask_praetorian import Praetorian
-from flask_cors import CORS
+from flask_cors import CORS, cross_origin
 from flask_mail import Mail
 
 PASS = os.environ.get("MYSQL_PASS")
@@ -15,3 +15,4 @@ db = SQLAlchemy()
 guard = Praetorian()
 cors = CORS()
 mail = Mail()
+cross_origin = cross_origin
