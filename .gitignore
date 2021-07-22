@@ -5,12 +5,13 @@
 /.pnp
 .pnp.js
 venv
+venv2
 
 # testing
 /coverage
 
 # production
-/build
+# /build
 
 # misc
 .DS_Store
