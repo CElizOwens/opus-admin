@@ -25,11 +25,13 @@ def not_found(e):
 
 # EXAMPLE
 @app.route("/api/")
+@cross_origin()
 def home():
     return {"Hello": "World"}, 200
 
 
 @app.route("/api/login", methods=["POST"])
+@cross_origin()
 def login():
     """
     Logs a user in by parsing a POST request containing
@@ -48,6 +50,7 @@ def login():
 
 
 @app.route("/api/refresh", methods=["POST"])
+@cross_origin()
 def refresh():
     """
     Refreshes an existing JWT by creating a new one
@@ -65,6 +68,7 @@ def refresh():
 
 
 @app.route("/api/protected")
+@cross_origin()
 @flask_praetorian.auth_required
 def protected():
     """
@@ -80,6 +84,7 @@ def protected():
 
 
 @app.route("/api/register", methods=["POST"])
+@cross_origin()
 @flask_praetorian.roles_required("admin")
 # @flask_praetorian.auth_required
 def register():
@@ -127,6 +132,7 @@ def register():
 
 
 @app.route("/api/post_finalize", methods=["POST"])
+@cross_origin()
 # @flask_praetorian.auth_required
 def update_new_user():
     """
@@ -151,6 +157,7 @@ def update_new_user():
 
 
 @app.route("/api/finalize")
+@cross_origin()
 # @flask_praetorian.auth_required
 def finalize():
     """
@@ -174,12 +181,13 @@ def finalize():
     return ret, 200
 
 
-@app.route("/api/update_password", methods=["POST"])
-def update_password():
-    return "success"
+# @app.route("/api/update_password", methods=["POST"])
+# def update_password():
+#     return "success"
 
 
 @app.route("/api/users", methods=["POST"])
+@cross_origin()
 def new_user():
     username = request.json.get("username")
     password = request.json.get("password")
@@ -223,6 +231,7 @@ def get_current_time():
 
 
 @app.route("/api/venues", methods=["GET", "POST"])
+@cross_origin()
 def get_venues():
     if request.method == "POST":
         req = json.loads(request.data)["data"]
@@ -236,11 +245,13 @@ def get_venues():
 
 
 @app.route("/api/repertoire")
+@cross_origin()
 def get_repertoire():
     return to_json(persistence.get_all_performances())
 
 
 @app.route("/api/programs", methods=["GET"])
+@cross_origin()
 def get_programs():
     # get list of Event namedtuples
     events = persistence.get_all_events()
@@ -269,6 +280,7 @@ def get_programs():
 
 
 @app.route("/api/new_program", methods=["POST"])
+@cross_origin()
 @flask_praetorian.auth_required
 def add_program():
     """
@@ -284,6 +296,7 @@ def add_program():
 
 
 @app.route("/api/performances/<event_id>", methods=["POST"])
+@cross_origin()
 @flask_praetorian.auth_required
 def add_performance(event_id):
     if request.method == "POST":
@@ -299,6 +312,7 @@ def add_performance(event_id):
 
 
 @app.route("/api/composers")
+@cross_origin()
 def get_composers():
     composers_nts = persistence.get_all_composers()
     composers_dicts = [nt._asdict() for nt in composers_nts]
@@ -307,6 +321,7 @@ def get_composers():
 
 
 @app.route("/api/composer_pieces/<name>")
+@cross_origin()
 def get_pieces_by_composer(name):
     composer_rep_nts = persistence.get_composer_rep(name)
     composer_rep_dicts = [nt._asdict() for nt in composer_rep_nts]
