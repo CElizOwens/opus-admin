@@ -7,7 +7,7 @@ export default function Form({ venueFormSubmit }) {
   const [needForm, setNeedForm] = useState(false);
 
   const onSubmit = (data) => {
-    console.log(data);
+    // console.log(data);
     venueFormSubmit(data);
     reset();
   };

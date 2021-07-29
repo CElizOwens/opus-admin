@@ -45,7 +45,7 @@ def login():
     password = req.get("password")
     user = guard.authenticate(username, password)
     ret = {"access_token": guard.encode_jwt_token(user)}
-    print(f"ret = {ret}")
+    # print(f"ret = {ret}")
     return ret, 200
 
 
@@ -116,9 +116,9 @@ def register():
     db.session.commit()
 
     # Remove this print function before changing to production
-    print(
-        f"\n ***** user = {app.config['MAIL_USERNAME']} | app_pass = {app.config['MAIL_PASSWORD']}\n ***** email = {email} | password = {password}\n"
-    )
+    # print(
+    #     f"\n ***** user = {app.config['MAIL_USERNAME']} | app_pass = {app.config['MAIL_PASSWORD']}\n ***** email = {email} | password = {password}\n"
+    # )
 
     guard.send_registration_email(
         email,
@@ -142,11 +142,11 @@ def update_new_user():
     """
     req = request.get_json(force=True)
     new_password = req.get("password")
-    print(f"new_password = {new_password}")
+    # print(f"new_password = {new_password}")
     username = req.get("username")
-    print(f"username = {username}")
+    # print(f"username = {username}")
     user = User.lookup(username)
-    print(f"user = {user}")
+    # print(f"user = {user}")
 
     # finalized_token = guard.read_token_from_header()
     # user = guard.get_user_from_registration_token(registration_token)
@@ -177,7 +177,7 @@ def finalize():
         "access_token": guard.encode_jwt_token(user, bypass_user_check=True),
         "username": user.username,
     }
-    print(f" -------> ret = {ret}\n")
+    # print(f" -------> ret = {ret}\n")
     return ret, 200
 
 
@@ -287,11 +287,11 @@ def add_program():
     Inserts new program, returns its newly assigned event_id
     """
     req = json.loads(request.data)["data"]
-    print(f"******* req = {req} *******\n Type = {type(req)}")
+    # print(f"******* req = {req} *******\n Type = {type(req)}")
     day_time = parse(req["day_time"])
     venue_id = req["venue_id"]
     event_id = persistence.insert_event(day_time, venue_id)
-    print(f"******* event_id = {event_id}, Type = {type(event_id)}")
+    # print(f"******* event_id = {event_id}, Type = {type(event_id)}")
     return {"event_id": event_id}
 
 
@@ -301,10 +301,10 @@ def add_program():
 def add_performance(event_id):
     if request.method == "POST":
         req = json.loads(request.data)["data"]
-        print(
-            f"******* req = {req}\n******* Event ID: {event_id}\n"
-            + f"******* Type of req = {type(req)}"
-        )
+        # print(
+        #     f"******* req = {req}\n******* Event ID: {event_id}\n"
+        #     + f"******* Type of req = {type(req)}"
+        # )
         persistence.insert_performance(
             event_id, req["composer"], req["imslp_title"], req["performance_notes"]
         )

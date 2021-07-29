@@ -16,7 +16,7 @@ export default function Programs() {
 
   const handleProgramFormSubmit = (data) => {
     console.log('Begin "handleProgramFormSubmit:"');
-    console.log(`RAW PROGRAM FORM DATA: ${JSON.stringify({ data })}`);
+    // console.log(`RAW PROGRAM FORM DATA: ${JSON.stringify({ data })}`);
     setLoading(true);
     return fetch("api/new_program", {
       method: "POST",
@@ -43,9 +43,9 @@ export default function Programs() {
   };
 
   const handlePerformanceFormSubmit = (data, event_id) => {
-    console.log(event_id);
-    console.log("From 'handlePerformanceFormSubmit':");
-    console.log(data);
+    // console.log(event_id);
+    // console.log("From 'handlePerformanceFormSubmit':");
+    // console.log(data);
     return fetch(`api/performances/${event_id}`, {
       method: "POST",
       body: JSON.stringify({ data }),
@@ -69,7 +69,7 @@ export default function Programs() {
         return res.json();
       })
       .then((data) => {
-        console.log(`Inside getPrograms, before "setPrograms" call: ${data}`);
+        // console.log(`Inside getPrograms, before "setPrograms" call: ${data}`);
         setLoading(false);
         setPrograms([...data]);
       })
@@ -81,12 +81,12 @@ export default function Programs() {
 
   useEffect(() => {
     getPrograms().then(() => {
-      console.log(`program_id.current = ${program_id.current}`);
+      // console.log(`program_id.current = ${program_id.current}`);
       // if (program_id.current !== null) {
       if (program_id.current) {
         const section = document.getElementById("program_section");
         const prog = section.querySelector(program_id.current);
-        console.log(`prog = ${prog}`);
+        // console.log(`prog = ${prog}`);
         // if (prog !== null) {
         if (prog) {
           prog.scrollIntoView({ behavior: "smooth", block: "start" });
@@ -109,7 +109,7 @@ export default function Programs() {
         // setLoading(false);
         // console.log(data);
         const dLen = Object.keys(data).length;
-        console.log(data[0]);
+        // console.log(data[0]);
 
         // mapping composer data to option tags
         // in two halves, otherwise reactDevTools
@@ -129,7 +129,7 @@ export default function Programs() {
             </option>
           ))
         );
-        console.log(`compOpts = ${compOpts}`);
+        // console.log(`compOpts = ${compOpts}`);
       } catch (err) {
         console.log(err);
         // setError(err.message);

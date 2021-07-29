@@ -27,7 +27,7 @@ export default function Venues() {
         return res.json();
       })
       .then((data) => {
-        console.log(data);
+        // console.log(data);
         setLoading(false);
         setVenues([...data]);
       })

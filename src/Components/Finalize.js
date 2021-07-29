@@ -25,9 +25,9 @@ function Finalize() {
       username: data.username,
       password: data.password,
     };
-    console.log(`onSubmit: 'opts.current = ${opts.current}`);
-    console.log(`onSubmit: 'opts.current.username = ${opts.current.username}`);
-    console.log(`onSubmit: 'opts.current.password = ${opts.current.password}`);
+    // console.log(`onSubmit: 'opts.current = ${opts.current}`);
+    // console.log(`onSubmit: 'opts.current.username = ${opts.current.username}`);
+    // console.log(`onSubmit: 'opts.current.password = ${opts.current.password}`);
     fetch("/api/finalize", {
       method: "GET",
       headers: {
@@ -41,11 +41,11 @@ function Finalize() {
         return res.json();
       })
       .then((res_json) => {
-        console.log("res_json = " + res_json);
+        // console.log("res_json = " + res_json);
         finalized_token.current = res_json.access_token;
-        console.log("finalized_token.current = " + finalized_token.current);
+        // console.log("finalized_token.current = " + finalized_token.current);
         opts.current.username = res_json.username;
-        console.log(`opts.current.username = ${opts.current.username}`);
+        // console.log(`opts.current.username = ${opts.current.username}`);
         if (finalized_token.current) {
           setFinalized(true);
         } else {
@@ -62,9 +62,9 @@ function Finalize() {
 
   useEffect(() => {
     if (finalized) {
-      console.log(
-        `'opts.current' = ${opts.current}.\nFetching 'post_finalize'.`
-      );
+      // console.log(
+      //   `'opts.current' = ${opts.current}.\nFetching 'post_finalize'.`
+      // );
       fetch("/api/post_finalize", {
         method: "POST",
         headers: {

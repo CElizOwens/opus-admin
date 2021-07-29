@@ -32,7 +32,7 @@ export default function ProgramForm({ programFormSubmit }) {
   }, []);
 
   const onSubmit = (data) => {
-    console.log(data);
+    // console.log(data);
     programFormSubmit(data);
     reset();
   };

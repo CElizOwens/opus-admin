@@ -19,7 +19,7 @@ function Invite() {
       username: data.email,
       roles: data.roles,
     };
-    console.log(token);
+    // console.log(token);
     fetch("/api/register", {
       method: "POST",
       headers: {
@@ -34,7 +34,7 @@ function Invite() {
         if (res.ok) {
           // console.log("'res.status' is 201.");
           sent.current = opts.username;
-          console.log(`sent.current = ${sent.current}`);
+          // console.log(`sent.current = ${sent.current}`);
         }
         setLoading(false);
       })
