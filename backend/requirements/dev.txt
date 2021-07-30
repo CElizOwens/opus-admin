@@ -1,6 +1,6 @@
 # Specifies only dev-specific requirements
-# But imports the common ones too
--r common.txt
+# But imports the regular requirements too
+-r requirements.txt
 astroid==2.4.2
 flake8==3.8.4
 isort==5.7.0
