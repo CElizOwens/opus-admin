@@ -4,7 +4,7 @@ from flask import Flask
 # Initialize flask app
 app = Flask(__name__, static_folder="../build", static_url_path="/")
 
-# MUST import - os; api, config from api - HERE after Flask() instantiation
+# MUST import - os; api, config from backend - HERE after Flask() instantiation
 import os  # noqa: E402
 from backend import api, config  # noqa: E402, F401
 

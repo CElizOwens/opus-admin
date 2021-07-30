@@ -4,7 +4,8 @@ from backend.config import db, guard, SERVER_NAME, cross_origin
 from backend.persistence import persistence
 from flask import abort, redirect, request, url_for  # , g
 import flask_praetorian
-import os
+
+# import os
 
 # from flask_httpauth import HTTPBasicAuth
 from backend.userModel import User
