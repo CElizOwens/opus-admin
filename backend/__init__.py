@@ -20,7 +20,8 @@ app.config["MAIL_PASSWORD"] = os.environ.get("EMAIL_APP_PASS")
 app.config["PRAETORIAN_CONFIRMATION_SENDER"] = os.environ.get("EMAIL_USER")
 app.config["MAIL_USE_TLS"] = False
 app.config["MAIL_USE_SSL"] = True
-app.config["SERVER_NAME"] = config.SERVER_NAME + ":5000"
+app.config["SERVER_NAME"] = config.SERVER_NAME
+#  + ":5000"
 
 # Initialize the flask-praetorian, sqlalchemy and cors instances for the app
 # MUST import - db, guard, cors, mail; User - HERE after app configuration
