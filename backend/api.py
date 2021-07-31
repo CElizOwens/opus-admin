@@ -124,7 +124,7 @@ def register():
     guard.send_registration_email(
         email,
         user=new_user,
-        confirmation_uri="http://" + SERVER_NAME + ":3000/finalize",
+        confirmation_uri="http://" + SERVER_NAME + "/finalize",
     )
     ret = {
         "message": f"Successfully sent registration email to user {new_user.username}."
