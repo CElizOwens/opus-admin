@@ -1,10 +1,11 @@
 import React from "react";
-import { useForm } from "react-hook-form";
+import { useForm, useRef } from "react-hook-form";
 import { login, useAuth, logout } from "../auth";
 
 export default function Login() {
   const { register, handleSubmit, errors, reset } = useForm();
   const [logged] = useAuth();
+  let user = useRef(null);
 
   const onSubmit = (data) => {
     console.log("You pressed login");
@@ -22,6 +23,7 @@ export default function Login() {
         if (token.access_token) {
           login(token);
           // console.log(token);
+          user.current = opts.username;
         } else {
           console.log("Please type in correct username/password.");
         }
@@ -85,9 +87,9 @@ export default function Login() {
         </div>
       ) : (
         <div>
-          <h2 className="row central title">You are logged in!</h2>
+          <h2 className="row central title">Hello, {user.current}!</h2>
           <section className="row central">
-            <button onClick={() => logout()}>Click to Logout</button>
+            <button onClick={() => logout()}>Logout</button>
           </section>
         </div>
       )}

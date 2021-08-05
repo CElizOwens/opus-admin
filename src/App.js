@@ -28,7 +28,7 @@ function App() {
               <Link to="/programs">Programs</Link> |{" "}
               <Link to="/repertoire">Repertoire</Link> |{" "}
               <Link to="/venues">Venues</Link> |{" "}
-              <Link to="/login">{!logged ? <>Login</> : <>Logout</>}</Link> |{" "}
+              <Link to="/login">{!logged ? <>Login</> : <>Account</>}</Link> |{" "}
               <Link to="/secret">Secret</Link>
               {/*{" "}
               | <Link to="/time">Time Zones</Link>*/}
