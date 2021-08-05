@@ -87,8 +87,10 @@ def protected():
         $ curl http://localhost:5000/api/protected -X GET \
             -H "Authorization: Bearer <your_token>"
     """
+    username = flask_praetorian.current_user().username
     return {
-        "message": f"protected endpoint (allowed user {flask_praetorian.current_user().username})"
+        "message": f"protected endpoint (allowed user {username})",
+        "username": username,
     }
 
 
