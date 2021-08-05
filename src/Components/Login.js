@@ -1,5 +1,5 @@
-import React from "react";
-import { useForm, useRef } from "react-hook-form";
+import React, { useRef } from "react";
+import { useForm } from "react-hook-form";
 import { login, useAuth, logout } from "../auth";
 
 export default function Login() {
