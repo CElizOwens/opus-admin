@@ -1,11 +1,11 @@
 import React, { useState } from "react";
 import { useForm } from "react-hook-form";
-import { login, useAuth, logout, authFetch } from "../auth";
+import { login, useAuth, logout } from "../auth";
 
 export default function Login() {
   const { register, handleSubmit, errors, reset } = useForm();
   const [logged] = useAuth();
-  const { message, setMessage } = useState("");
+  const { username, setUsername } = useState("");
 
   const onSubmit = (data) => {
     console.log("You pressed login");
@@ -23,24 +23,25 @@ export default function Login() {
         if (token.access_token) {
           login(token);
           // console.log(token);
+          setUsername(opts.username);
         } else {
           console.log("Username or password is incorrect.");
         }
       });
     reset();
-    authFetch("/api/protected")
-      .then((response) => {
-        if (response.status === 401) {
-          setMessage("Username or password is incorrect.");
-          return null;
-        }
-        return response.json();
-      })
-      .then((response) => {
-        if (response && response.username) {
-          setMessage(response.username);
-        }
-      });
+    // authFetch("/api/protected")
+    //   .then((response) => {
+    //     if (response.status === 401) {
+    //       setMessage("Username or password is incorrect.");
+    //       return null;
+    //     }
+    //     return response.json();
+    //   })
+    //   .then((response) => {
+    //     if (response && response.username) {
+    //       setMessage(response.username);
+    //     }
+    //   });
   };
 
   return (
@@ -99,7 +100,7 @@ export default function Login() {
         </div>
       ) : (
         <div>
-          <h3 className="row central title">Hello, {message}!</h3>
+          <h3 className="row central title">Hello, {username}!</h3>
           <section className="row central">
             <button onClick={() => logout()}>Logout</button>
           </section>
