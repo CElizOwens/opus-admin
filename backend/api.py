@@ -18,6 +18,14 @@ import time
 # auth = HTTPBasicAuth()
 
 
+@app.before_request
+def before_request():
+    if not request.is_secure:
+        url = request.url.replace("http://", "https://", 1)
+        code = 301
+        return redirect(url, code=code)
+
+
 @app.errorhandler(404)
 @cross_origin()
 def not_found(e):
@@ -124,7 +132,7 @@ def register():
     guard.send_registration_email(
         email,
         user=new_user,
-        confirmation_uri="http://" + SERVER_NAME + "/finalize",
+        confirmation_uri="https://" + SERVER_NAME + "/finalize",
     )
     ret = {
         "message": f"Successfully sent registration email to user {new_user.username}."

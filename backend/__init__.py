@@ -1,8 +1,12 @@
 # flake8: noqa=E501
 from flask import Flask
+from werkzeug.contrib.fixers import ProxyFix
 
 # Initialize flask app
 app = Flask(__name__, static_folder="../build", static_url_path="/")
+
+# help gunicorn redirect 'http' to 'https'
+app.wsgi_app = ProxyFix(app.wsgi_app)
 
 # MUST import - os; api, config from backend - HERE after Flask() instantiation
 import os  # noqa: E402
