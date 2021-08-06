@@ -5,7 +5,7 @@ import { login, useAuth, logout } from "../auth";
 export default function Login() {
   const { register, handleSubmit, errors, reset } = useForm();
   const [logged] = useAuth();
-  const { username, setUsername } = useState("");
+  const [username, setUsername] = useState("");
 
   const onSubmit = (data) => {
     console.log("You pressed login");
