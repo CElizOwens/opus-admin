@@ -10,7 +10,12 @@ venv2
 # testing
 /coverage
 
+# dev
+dev_config_vars.txt
+
 # production
+prod_config_vars.txt
+
 # /build
 
 # misc
