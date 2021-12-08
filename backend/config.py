@@ -9,7 +9,9 @@ SECRET_KEY = os.environ.get("SECRET_KEY") or "secret-key-goes-here"
 SERVER_NAME = os.environ.get("APP_HOST")
 # SERVER_NAME = "localhost.localdomain:5000"
 databaseURI = f"mysql+mysqldb://root:{PASS}@localhost/opus"
-test_databaseURI = os.environ.get("JAWSDB_URL")
+test_databaseURI = os.environ.get(
+    "JAWSDB_URL", f"mysql+mysqldb://root:{PASS}@localhost/test_opus"
+)
 
 db = SQLAlchemy()
 guard = Praetorian()
