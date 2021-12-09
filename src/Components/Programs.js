@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useCallback, useRef } from "react";
+import { authFetch } from "../auth";
 import LoadingBox from "./LoadingBox";
 import MessageBox from "./MessageBox";
 import PerformanceForm from "./PerformanceForm";
@@ -18,7 +19,7 @@ export default function Programs() {
     console.log('Begin "handleProgramFormSubmit:"');
     // console.log(`RAW PROGRAM FORM DATA: ${JSON.stringify({ data })}`);
     setLoading(true);
-    return fetch("api/new_program", {
+    return authFetch("api/new_program", {
       method: "POST",
       body: JSON.stringify({ data }),
       headers: {
