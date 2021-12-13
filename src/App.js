@@ -11,6 +11,7 @@ import Venues from "./Components/Venues";
 import { useAuth } from "./auth";
 import Finalize from "./Components/Finalize";
 import Invite from "./Components/Invite";
+import NoMatch from "./Components/NoMatch";
 
 function App() {
   const [logged] = useAuth();
@@ -59,13 +60,16 @@ function App() {
                 </Route>
                 <PrivateRoute path="/invite" component={Invite} />
                 <Route>
-                  <Finalize />
+                  <Finalize path="finalize" />
                 </Route>
                 {/* <PrivateRoute path="/finalize" component={Finalize} /> */}
 
                 {/* <Route path="/time">
                   <Time />
                 </Route> */}
+                <Route>
+                  <NoMatch />
+                </Route>
               </Switch>
             </div>
           </main>
