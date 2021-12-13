@@ -59,8 +59,8 @@ function App() {
                   <Venues />
                 </Route>
                 <PrivateRoute path="/invite" component={Invite} />
-                <Route>
-                  <Finalize path="finalize" />
+                <Route path="/finalize">
+                  <Finalize />
                 </Route>
                 {/* <PrivateRoute path="/finalize" component={Finalize} /> */}
 

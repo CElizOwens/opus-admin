@@ -2,9 +2,9 @@ import React from "react";
 
 function NoMatch() {
   return (
-    <div class="row central title">
-      <h1>404</h1>
-      <p>Page not found.</p>
+    <div>
+      <h1 class="row central title">404</h1>
+      <p class="central">Page not found.</p>
     </div>
   );
 }
