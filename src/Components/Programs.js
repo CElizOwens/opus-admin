@@ -47,7 +47,7 @@ export default function Programs() {
     // console.log(event_id);
     // console.log("From 'handlePerformanceFormSubmit':");
     // console.log(data);
-    return fetch(`api/performances/${event_id}`, {
+    return authFetch(`api/performances/${event_id}`, {
       method: "POST",
       body: JSON.stringify({ data }),
       headers: {
