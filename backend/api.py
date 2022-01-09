@@ -241,18 +241,24 @@ def get_current_time():
     return {"time": time.strftime("%X %x")}
 
 
-@app.route("/api/venues", methods=["GET", "POST"])
+@app.route("api/venues", methods=["GET"])
 @cross_origin()
 def get_venues():
-    if request.method == "POST":
-        req = json.loads(request.data)["data"]
-        # print(f'req["name"] = {req["name"]}')
-        # print(f'******* req = {req[data]} *******\n Type = {type(req)}')
-        name = req["name"]
-        address = req["address"]
-        link = req["link"]
-        persistence.insert_venue(name, address, link)
     return to_json(persistence.get_all_venues())
+
+
+@app.route("/api/new_venue", methods=["POST"])
+@cross_origin()
+@flask_praetorian.auth_required
+def add_venue():
+    req = json.loads(request.data)["data"]
+    # print(f'req["name"] = {req["name"]}')
+    # print(f'******* req = {req[data]} *******\n Type = {type(req)}')
+    name = req["name"]
+    address = req["address"]
+    link = req["link"]
+    persistence.insert_venue(name, address, link)
+    return "Success", 200
 
 
 @app.route("/api/repertoire")
@@ -319,7 +325,7 @@ def add_performance(event_id):
         persistence.insert_performance(
             event_id, req["composer"], req["imslp_title"], req["performance_notes"]
         )
-    return "Success"
+    return "Success", 200
 
 
 @app.route("/api/composers")

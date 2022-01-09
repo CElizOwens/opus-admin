@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useCallback } from "react";
+import { authFetch } from "../auth";
 import VenueForm from "./VenueForm";
 import LoadingBox from "./LoadingBox";
 import MessageBox from "./MessageBox";
@@ -10,7 +11,7 @@ export default function Venues() {
   const [submitVenBool, setSubmitVenBool] = useState(false);
 
   const handleFormSubmit = (data) => {
-    fetch("api/venues", {
+    authFetch("api/new_venue", {
       method: "POST",
       body: JSON.stringify({ data }),
       headers: {
