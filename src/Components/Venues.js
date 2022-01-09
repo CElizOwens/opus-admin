@@ -11,7 +11,7 @@ export default function Venues() {
   const [submitVenBool, setSubmitVenBool] = useState(false);
 
   const handleFormSubmit = (data) => {
-    authFetch("api/new_venue", {
+    authFetch("/api/new_venue", {
       method: "POST",
       body: JSON.stringify({ data }),
       headers: {

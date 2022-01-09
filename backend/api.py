@@ -241,7 +241,7 @@ def get_current_time():
     return {"time": time.strftime("%X %x")}
 
 
-@app.route("api/venues", methods=["GET"])
+@app.route("/api/venues", methods=["GET"])
 @cross_origin()
 def get_venues():
     return to_json(persistence.get_all_venues())
